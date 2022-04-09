@@ -4,6 +4,8 @@ import React, { useEffect, useState, useContext} from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth, db } from '../../firebase/config'
 import * as fbOperations from '../../firebase/operations';
+import { LogBox } from 'react-native';
+
 LogBox.ignoreLogs(['Setting a timer']);
 const LoginScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
