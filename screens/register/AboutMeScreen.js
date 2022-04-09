@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {Picker} from '@react-native-picker/picker';
 import { Ionicons,FontAwesome5,AntDesign,Entypo,Fontisto,MaterialIcons} from '@expo/vector-icons';
+import { auth, db } from '../../firebase/config'
 
 const AboutMeScreen = ({navigation}) => {
     const [show, setShow] = useState(false);
@@ -27,7 +28,19 @@ const AboutMeScreen = ({navigation}) => {
               </TouchableOpacity> },
         });
     }, [navigation]);
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
 
+            try {
+                
+            } catch (error) {
+                console.log(error)    
+            }
+            
+        });
+
+        return unsubscribe;
+    }, [navigation]);
   return (
     <View  style ={styles.container}>
         <View  style={styles.row}>

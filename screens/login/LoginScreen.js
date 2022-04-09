@@ -2,8 +2,9 @@ import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 import React, { useEffect, useState, useContext} from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../../firebase/config'
-
+import { auth, db } from '../../firebase/config'
+import * as fbOperations from '../../firebase/operations';
+LogBox.ignoreLogs(['Setting a timer']);
 const LoginScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
 
@@ -24,9 +25,27 @@ const LoginScreen = ({navigation}) => {
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        setUser(userCredentials.user);
-        console.log('Registered with:', user.email);
+      .then(async userCredentials => {
+        const userObj = {
+          "email": email,
+          "id": userCredentials.user.uid,
+          "fistName": "",
+          "lastName": "",
+          "dob": "",
+          "gender": "",
+          "orientation": "",
+          "minAge": "",
+          "maxAge": "",
+          "maxLocation":50,
+          "profilePicture": "",
+          "lastLocationLon":0,
+          "lastLocationLat":0,
+          "userPhotos":[],
+          "finishedProfile": false,
+        }
+        await fbOperations.Signup(email, userObj)
+        setUser(userObj);
+        navigation.replace("AboutMe")
       })
       .catch(error => alert(error.message))
   }
@@ -36,6 +55,18 @@ const LoginScreen = ({navigation}) => {
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
+        fbOperations.GetUserInfo(email).then(async (user)=>{
+          await setUser(user);
+          if(user.finishedProfile){
+            navigation.replace("Home")
+
+          }else{
+            navigation.replace("AboutMe")
+          }
+        }).catch((error)=>{
+          console.log(error)
+
+        })
         console.log('Logged in with:', user.email);
       })
       .catch(error => alert(error.message))
