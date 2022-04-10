@@ -30,7 +30,8 @@ const AboutMeScreen = ({navigation}) => {
             console.log(error)
         })
     }
-    React.useLayoutEffect(() => {
+
+    React.useEffect(() => {
         navigation.setOptions({
             headerRight: () => {
                 return  <TouchableOpacity onPress={() => {navigation.navigate('Preferences') }}>
@@ -39,8 +40,6 @@ const AboutMeScreen = ({navigation}) => {
                 </Text>
               </TouchableOpacity> },
         });
-    }, [navigation]);
-    React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
 
             try {
