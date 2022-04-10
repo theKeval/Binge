@@ -160,25 +160,22 @@ const styles = StyleSheet.create({
         padding: 5
       },
     textField: {
-
-
-        // padding: 12,
         backgroundColor: 'white',
         borderColor: '#009B81',
         borderWidth: 2,
-        borderRadius: 5,
+        borderRadius: 10,
         paddingHorizontal: 15,
         paddingVertical: 10,
     },
     field:{
         backgroundColor: 'white',
-        // borderColor: MangoStyles.mangoOrangeYellow,
+        borderColor: '#009B81',
         borderWidth: 2,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     btnSave: {
-        marginTop:20,
-      backgroundColor: 'lightgray',
+      marginTop:20,
+      backgroundColor: '#FFBE27',
       width: '100%',
       padding: 15,
       borderRadius: 10,

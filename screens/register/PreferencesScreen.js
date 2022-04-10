@@ -76,7 +76,7 @@ export default PreferencesScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: MangoStyles.mangoPaleOrange,
+        backgroundColor: '#FFFAEE',
         paddingHorizontal: '5%',
         paddingTop: 10
     },
