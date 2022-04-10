@@ -17,7 +17,6 @@ const AboutMeScreen = ({navigation}) => {
     const [gender , genderSet] = useState( "female");
 
     const saveAboutMe = () =>{
-        console.log(user)
         const aboutMeObj = {...user}
         aboutMeObj["firstName"] = firstName; 
         aboutMeObj["lastName"] = lastName; 
@@ -25,7 +24,8 @@ const AboutMeScreen = ({navigation}) => {
         aboutMeObj["gender"] = gender; 
         fbOperations.updateUserInfo(user.email,aboutMeObj).then(async ()=>{
             await setUser(aboutMeObj);
-            // navigation.navigate('Preferences');
+
+            navigation.navigate('Preferences');
         }).catch((e)=> {
             console.log(error)
         })
@@ -45,12 +45,12 @@ const AboutMeScreen = ({navigation}) => {
 
             try {
                 if(user && user.email){
+                    
                     await firstNameSet(user.firstName);
                     await lastNameSet(user.lastName);
                     if(user.dob !== ""){
                         await dobSet(user.dob);
                         try {
-                            console.log(user.dob,moment(user.dob).toDate())
                             await currentDateSet(moment(user.dob).toDate());
                         } catch (error) {
                             
