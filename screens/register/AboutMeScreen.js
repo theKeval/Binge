@@ -140,7 +140,7 @@ export default AboutMeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: MangoStyles.mangoPaleOrange,
+        backgroundColor: '#FFFAEE',
         paddingHorizontal: '5%',
         paddingTop: 10
     },
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 
         // padding: 12,
         backgroundColor: 'white',
-        // borderColor: MangoStyles.mangoOrangeYellow,
+        borderColor: '#009B81',
         borderWidth: 2,
         borderRadius: 5,
         paddingHorizontal: 15,

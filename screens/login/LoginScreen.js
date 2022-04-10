@@ -118,20 +118,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFAEE',
   },
   inputContainer: {
-    width: '80%'
+    width: '80%',
   },
   input: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
+    borderColor: '#009B81',
+    borderWidth: 1,
     marginTop: 5,
   },
   buttonContainer: {
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 60,
   },
   button: {
     backgroundColor: '#FFBE27',
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: 10,
     borderColor: '#009B81',
     borderWidth: 2,
   },
@@ -159,7 +161,7 @@ const styles = StyleSheet.create({
   bingeLogo: {
     width:'90%',
     maxWidth: 500,
-    maxHeight:150,
+    maxHeight:160,
     marginBottom: 50,
   }
 })
