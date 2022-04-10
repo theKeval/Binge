@@ -9,6 +9,7 @@ import { AuthenticatedUserProvider } from './navigation/AuthenticatedUserProvide
 import AboutMeScreen from './screens/register/AboutMeScreen';
 import PreferencesScreen from './screens/register/PreferencesScreen';
 import InterestsScreen from './screens/register/InterestsScreen';
+import PhotosScreen from './screens/register/PhotosScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function App() {
           <Stack.Screen name="AboutMe" component={AboutMeScreen} />
           <Stack.Screen name="Preferences" component={PreferencesScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} />
+          <Stack.Screen name="Photos" component={PhotosScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>

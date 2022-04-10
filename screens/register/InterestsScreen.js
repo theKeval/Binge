@@ -1,7 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const InterestsScreen = () => {
+const InterestsScreen = ({navigation}) => {
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+        headerRight: () => {
+            return  <TouchableOpacity onPress={() => {navigation.navigate('Photos') }}>
+            <Text style={styles.searchBtn}>
+              SKIP
+            </Text>
+          </TouchableOpacity> },
+    });
+  }, [navigation]);
+
   return (
     <View  style ={styles.container}>
       <Text>InterestsScreen</Text>

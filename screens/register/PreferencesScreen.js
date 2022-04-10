@@ -1,34 +1,65 @@
 import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {Picker} from '@react-native-picker/picker';
-import { Ionicons,FontAwesome5,AntDesign,Entypo,Fontisto,MaterialIcons} from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
+import * as fbOperations from '../../firebase/operations';
+import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
 const PreferencesScreen = ({navigation}) => {
     const {height, width} = useWindowDimensions();
+    const { user, setUser } = useContext(AuthenticatedUserContext);
 
     const [minAge , minAgeSet] = useState( 19);
     const [maxAge , maxAgeSet] = useState( 99);
     const [maxLocation , maxLocationSet] = useState( 50);
-    const [sexualOrientation , sexualOrientationSet] = useState( "");
+    const [orientation , orientationSet] = useState( "");
 
     const savePreferences = () =>{
-        navigation.navigate('Interests')
+        const preferencesObj = {...user}
+        preferencesObj["minAge"] = minAge; 
+        preferencesObj["maxAge"] = maxAge; 
+        preferencesObj["maxLocation"] = maxLocation; 
+        preferencesObj["orientation"] = orientation; 
+        fbOperations.updateUserInfo(user.email,preferencesObj).then(async ()=>{
+            await setUser(preferencesObj);
+
+            navigation.navigate('Interests');
+        }).catch((e)=> {
+            console.log(error)
+        })
     }
 
     
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-                return  <TouchableOpacity onPress={() => { savePreferences()}}>
+                return  <TouchableOpacity onPress={() => {navigation.navigate('Interests') }}>
                 <Text style={styles.searchBtn}>
-                  <Ionicons name='checkmark' size={24} color='black' />
+                  SKIP
                 </Text>
               </TouchableOpacity> },
         });
+    }, [navigation]);
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+
+            try {
+                if(user && user.email){
+                   await minAgeSet( user.minAge)
+                   await maxAgeSet( user.maxAge)
+                   await maxLocationSet( user.maxLocation)
+                   await orientationSet( user.orientation)
+                }
+            } catch (error) {
+                console.log(error)    
+            }
+            
+        });
+
+        return unsubscribe;
     }, [navigation]);
   return (
     <View  style ={styles.container}>
@@ -67,6 +98,32 @@ const PreferencesScreen = ({navigation}) => {
                     onValuesChange={(values) =>{maxLocationSet(values[0])}}/>
             </View>
         </View>
+        <View  style={styles.row}>
+            <Text style={styles.label}>I would like to meet:</Text>
+            <View style={[styles.field]}>
+                <Picker
+                    
+                    selectedValue={orientation}
+                    onValueChange={(itemValue, itemIndex) =>
+                        orientationSet(itemValue)
+                    }>
+                    <Picker.Item label="Show me all" value="" />
+                    <Picker.Item label="Only men" value="male" />
+                    <Picker.Item label="Only Women" value="female" />
+                    
+                </Picker>
+            </View>
+
+        </View>
+        <View  style={styles.row}>
+
+            <TouchableOpacity
+                onPress={savePreferences}
+                style={styles.btnSave}
+                >
+                <Text style={styles.buttonText}>Save and Continue</Text>
+                </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -111,6 +168,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         padding: 5
       },
+      btnSave: {
+        marginTop:20,
+      backgroundColor: 'lightgray',
+      width: '100%',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
     textField: {
 
 
