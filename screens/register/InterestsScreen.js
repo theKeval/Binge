@@ -67,12 +67,16 @@ const styles = StyleSheet.create({
   },
   interestList:{
       marginTop: 60,
-      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center'
   },
   button: {
     backgroundColor: 'white',
-    width: '20%',
-    padding: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    marginVertical: 5,
     borderRadius: 10,
     alignItems: 'center',
     borderColor: '#FFBE27',
