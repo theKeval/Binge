@@ -73,6 +73,8 @@ const InterestsScreen = ({navigation}) => {
         <TouchableHighlight {...touchProps} style={styles.button}><Text style={styles.buttonText}>Astrology</Text></TouchableHighlight>
         <TouchableHighlight {...touchProps} style={styles.button}><Text style={styles.buttonText}>Foodie</Text></TouchableHighlight>
       </View>
+      <View style={styles.submitArea}>
+      <TouchableOpacity style={styles.submit}><Text style={styles.submitText}>Continue 0/5</Text></TouchableOpacity></View>
     </View>
   )
 }
@@ -85,6 +87,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFFAEE',
       paddingHorizontal: '5%',
       paddingTop: 10,
+  },
+  buttonText: {
+    color: 'black',
   },
   header: {
       marginTop: 25,
@@ -99,7 +104,6 @@ const styles = StyleSheet.create({
       fontWeight: '700',
       marginBottom: 5,
       fontSize: 16,
-
   },
   searchBtn: {
       marginHorizontal: 10,
@@ -113,13 +117,12 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
   },
   interestList:{
-      marginTop: 60,
+      marginTop: 40,
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'center'
   },
   button: {
-    
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
@@ -131,7 +134,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   buttonPressed: {
-    
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
@@ -142,4 +144,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#FFBE27',
   },
+  submitArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submit: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    marginHorizontal: 5,
+    marginVertical: 25,
+    borderWidth: 0,
+    backgroundColor: '#FFBE27',
+    borderRadius: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  submitText: {
+    fontWeight: 'bold',
+  }
 })
