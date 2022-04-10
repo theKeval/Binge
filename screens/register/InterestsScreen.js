@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 import React from 'react'
+import { Button } from 'react-native-web';
 
 const InterestsScreen = ({navigation}) => {
 
@@ -15,8 +16,17 @@ const InterestsScreen = ({navigation}) => {
   }, [navigation]);
 
   return (
-    <View  style ={styles.container}>
-      <Text>InterestsScreen</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Let others know what are you interested the most :)</Text>
+
+      <View style={styles.interestList}>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>Login</Text></TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -26,9 +36,12 @@ export default InterestsScreen
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      // backgroundColor: MangoStyles.mangoPaleOrange,
+      backgroundColor: '#FFFAEE',
       paddingHorizontal: '5%',
-      paddingTop: 10
+      paddingTop: 10,
+  },
+  header: {
+      marginTop: 25,
   },
   row: {
       justifyContent: 'center',
@@ -46,14 +59,23 @@ const styles = StyleSheet.create({
       padding: 5
     },
   textField: {
-
-
-      // padding: 12,
       backgroundColor: 'white',
-      // borderColor: MangoStyles.mangoOrangeYellow,
       borderWidth: 2,
       borderRadius: 5,
       paddingHorizontal: 15,
       paddingVertical: 10,
+  },
+  interestList:{
+      marginTop: 60,
+      display: 'flex',
+  },
+  button: {
+    backgroundColor: 'white',
+    width: '20%',
+    padding: 5,
+    borderRadius: 10,
+    alignItems: 'center',
+    borderColor: '#FFBE27',
+    borderWidth: 1,
   },
 })

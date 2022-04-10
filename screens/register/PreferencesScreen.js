@@ -133,7 +133,7 @@ export default PreferencesScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: MangoStyles.mangoPaleOrange,
+        backgroundColor: '#FFFAEE',
         paddingHorizontal: '5%',
         paddingTop: 10
     },
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
       },
       btnSave: {
         marginTop:20,
-      backgroundColor: 'lightgray',
+      backgroundColor: '#FFBE27',
       width: '100%',
       padding: 15,
       borderRadius: 10,
