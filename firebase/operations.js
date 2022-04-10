@@ -29,7 +29,7 @@ export const Create = async (collectionName, documentName, value) => {
         })
         .catch((error) => {
             // MARK: Failure
-            alert(error.message)
+            console.log(error.message)
         })
 
     return docCreated;
@@ -71,7 +71,7 @@ export const Update = async (value, merge, collectionName, documentName) => {
         })
         .catch((error) => {
             // MARK: Failure
-            alert(error.message)
+            console.log(error.message)
         })
 
     return docUpdated;
@@ -87,7 +87,7 @@ export const Delete = async (collectionName, documentName) => {
         })
         .catch((error) => {
             // MARK: Failure
-            alert(error.message)
+            console.log(error.message)
         })
     return deleted;
 }
@@ -104,4 +104,8 @@ export const GetUserInfo = (emailAddress) => {
     // console.log("getting user: " + emailAddress);
     return Read("users", emailAddress);
 }
+
+export const updateUserInfo = (id, user) => {
+    return Update(user, false,"users", id);
+  }
 // #endregion

@@ -14,15 +14,6 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('')
 
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Home")
-      }
-    })
-
-    return unsubscribe
-  }, [])
 
   const handleSignUp = () => {
     auth
@@ -31,7 +22,7 @@ const LoginScreen = ({navigation}) => {
         const userObj = {
           "email": email,
           "id": userCredentials.user.uid,
-          "fistName": "",
+          "firstName": "",
           "lastName": "",
           "dob": "",
           "gender": "",
@@ -56,20 +47,19 @@ const LoginScreen = ({navigation}) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
-        const user = userCredentials.user;
         fbOperations.GetUserInfo(email).then(async (user)=>{
           await setUser(user);
-          if(user.finishedProfile){
+          if(user && user.finishedProfile){
             navigation.replace("Home")
-
-          }else{
+    
+          }else if(user && !user.finishedProfile){
             navigation.replace("AboutMe")
           }
+
         }).catch((error)=>{
           console.log(error)
 
         })
-        console.log('Logged in with:', user.email);
       })
       .catch(error => alert(error.message))
   }

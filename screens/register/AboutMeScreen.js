@@ -1,38 +1,64 @@
 import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {Picker} from '@react-native-picker/picker';
-import { Ionicons,FontAwesome5,AntDesign,Entypo,Fontisto,MaterialIcons} from '@expo/vector-icons';
-import { auth, db } from '../../firebase/config'
+import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
+import * as fbOperations from '../../firebase/operations';
 
 const AboutMeScreen = ({navigation}) => {
     const [show, setShow] = useState(false);
     const [currentDate, currentDateSet] = useState(moment().add(-19,'years').toDate());
+    const { user, setUser } = useContext(AuthenticatedUserContext);
 
-    const [firstName , firstNameSet] = useState( null);
-    const [lastName , lastNameSet] = useState( null);
-    const [dob , dobSet] = useState( null);
-    const [gender , genderSet] = useState( "");
+    const [firstName , firstNameSet] = useState( "");
+    const [lastName , lastNameSet] = useState( "");
+    const [dob , dobSet] = useState( "");
+    const [gender , genderSet] = useState( "female");
 
     const saveAboutMe = () =>{
-        navigation.navigate('Preferences')
+        console.log(user)
+        const aboutMeObj = {...user}
+        aboutMeObj["firstName"] = firstName; 
+        aboutMeObj["lastName"] = lastName; 
+        aboutMeObj["dob"] = dob; 
+        aboutMeObj["gender"] = gender; 
+        fbOperations.updateUserInfo(user.email,aboutMeObj).then(async ()=>{
+            await setUser(aboutMeObj);
+            // navigation.navigate('Preferences');
+        }).catch((e)=> {
+            console.log(error)
+        })
     }
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-                return  <TouchableOpacity onPress={() => { saveAboutMe()}}>
+                return  <TouchableOpacity onPress={() => {navigation.navigate('Preferences') }}>
                 <Text style={styles.searchBtn}>
-                  <Ionicons name='checkmark' size={24} color='black' />
+                  SKIP
                 </Text>
               </TouchableOpacity> },
         });
     }, [navigation]);
     React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
+        const unsubscribe = navigation.addListener('focus', async () => {
 
             try {
-                
+                if(user && user.email){
+                    await firstNameSet(user.firstName);
+                    await lastNameSet(user.lastName);
+                    if(user.dob !== ""){
+                        await dobSet(user.dob);
+                        try {
+                            console.log(user.dob,moment(user.dob).toDate())
+                            await currentDateSet(moment(user.dob).toDate());
+                        } catch (error) {
+                            
+                        }
+                    }
+
+                    await genderSet(user.gender);
+                }
             } catch (error) {
                 console.log(error)    
             }
@@ -67,10 +93,9 @@ const AboutMeScreen = ({navigation}) => {
                 <DateTimePicker
                 value={currentDate}
                 mode={'date'}
-                onChange={(event, selectedDate) => {setShow(false);if(event.type !== 'dismissed') {dobSet(moment(selectedDate).format('DD-MM-YYYY'))};}}
+                onChange={(event, selectedDate) => {setShow(false);if(event.type !== 'dismissed') {dobSet(moment(selectedDate).format('DD-MMM-YYYY'))};}}
                 />
             )}
-            {/* <DateTimePicker onPress={showDatepicker} value={dob} onChange={text => dobSet(text)} style={[styles.textField]} /> */}
                 <TextInput
                         onPressIn={async ()=>{await setShow(true)}}
                     placeholder='DOB'
@@ -81,7 +106,7 @@ const AboutMeScreen = ({navigation}) => {
         </View>
         <View  style={styles.row}>
             <Text style={styles.label}>Gender:</Text>
-            <View style={[styles.textField]}>
+            <View style={[styles.field]}>
                 <Picker
                     
                     selectedValue={gender}
@@ -97,6 +122,15 @@ const AboutMeScreen = ({navigation}) => {
             </View>
 
         </View>
+        <View  style={styles.row}>
+
+            <TouchableOpacity
+                onPress={saveAboutMe}
+                style={styles.btnSave}
+                >
+                <Text style={styles.buttonText}>Save and Continue</Text>
+                </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -135,5 +169,19 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingHorizontal: 15,
         paddingVertical: 10,
+    },
+    field:{
+        backgroundColor: 'white',
+        // borderColor: MangoStyles.mangoOrangeYellow,
+        borderWidth: 2,
+        borderRadius: 5,
+    },
+    btnSave: {
+        marginTop:20,
+      backgroundColor: 'lightgray',
+      width: '100%',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
     },
 })
