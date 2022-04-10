@@ -1,15 +1,17 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 import React, { useEffect, useState, useContext} from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import { auth, db } from '../../firebase/config'
 import * as fbOperations from '../../firebase/operations';
 import { LogBox } from 'react-native';
+import Logo from '../../assets/bingelogo.png'
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 LogBox.ignoreLogs(['Setting a timer']);
 const LoginScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
-
+  const {height} = useWindowDimensions('');
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -69,6 +71,9 @@ const LoginScreen = ({navigation}) => {
       style={styles.container}
       behavior="padding"
     >
+      <Image style={[styles.bingeLogo, {height: height*0.3}]} source={require('../../assets/bingelogo.png')} resizeMode="contain"/>
+      
+
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -110,25 +115,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFFAEE',
   },
   inputContainer: {
-    width: '80%'
+    width: '80%',
   },
   input: {
     backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
+    borderColor: '#009B81',
+    borderWidth: 1,
     marginTop: 5,
   },
   buttonContainer: {
     width: '60%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 60,
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: '#FFBE27',
     width: '100%',
     padding: 15,
     borderRadius: 10,
@@ -136,8 +144,8 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
+    marginTop: 10,
+    borderColor: '#009B81',
     borderWidth: 2,
   },
   buttonText: {
@@ -146,8 +154,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonOutlineText: {
-    color: '#0782F9',
+    color: '#009B81',
     fontWeight: '700',
     fontSize: 16,
   },
+  bingeLogo: {
+    width:'90%',
+    maxWidth: 500,
+    maxHeight:160,
+    marginBottom: 50,
+  }
 })
