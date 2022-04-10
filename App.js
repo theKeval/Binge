@@ -10,6 +10,7 @@ import AboutMeScreen from './screens/register/AboutMeScreen';
 import PreferencesScreen from './screens/register/PreferencesScreen';
 import InterestsScreen from './screens/register/InterestsScreen';
 import PhotosScreen from './screens/register/PhotosScreen';
+import SplashScreen from './screens/login/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,9 +19,10 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator   initialRouteName='Splash'>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
           
+          <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
           <Stack.Screen name="AboutMe" component={AboutMeScreen} />
           <Stack.Screen name="Preferences" component={PreferencesScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} />
