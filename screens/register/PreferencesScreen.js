@@ -32,8 +32,8 @@ const PreferencesScreen = ({navigation}) => {
         })
     }
 
-    
-    React.useLayoutEffect(() => {
+
+    React.useEffect(() => {
         navigation.setOptions({
             headerRight: () => {
                 return  <TouchableOpacity onPress={() => {navigation.navigate('Interests') }}>
@@ -42,8 +42,6 @@ const PreferencesScreen = ({navigation}) => {
                 </Text>
               </TouchableOpacity> },
         });
-    }, [navigation]);
-    React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
 
             try {

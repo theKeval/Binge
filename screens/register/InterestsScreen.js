@@ -8,10 +8,8 @@ const InterestsScreen = ({navigation}) => {
     navigation.setOptions({
         headerRight: () => {
             return  <TouchableOpacity onPress={() => {navigation.navigate('Photos') }}>
-            <Text style={styles.searchBtn}>
-              SKIP
-            </Text>
-          </TouchableOpacity> },
+                      <Text style={styles.searchBtn}>SKIP</Text>
+                    </TouchableOpacity> },
     });
   }, [navigation]);
 
