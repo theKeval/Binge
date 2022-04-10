@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
       },
       btnSave: {
         marginTop:20,
-      backgroundColor: 'lightgray',
+      backgroundColor: '#FFBE27',
       width: '100%',
       padding: 15,
       borderRadius: 10,
