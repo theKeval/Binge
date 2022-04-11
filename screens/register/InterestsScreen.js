@@ -36,8 +36,9 @@ const InterestsScreen = ({navigation}) => {
 }, [navigation]);
   const toggleInterest = (selectedInterest,event)=> {
     if(interests.includes(selectedInterest)){
-     
-      interestsSet([...interests].splice(interests.indexOf(selectedInterest),1));
+      let newInterests = [...interests]
+      newInterests.splice(newInterests.indexOf(selectedInterest),1)
+      interestsSet(newInterests);
     }else{
       interestsSet([...interests,selectedInterest]);
     }
