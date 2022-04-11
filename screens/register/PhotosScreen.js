@@ -21,7 +21,6 @@ const PhotosScreen = ({navigation}) => {
     
             try {
                 if(user && user.email){
-                    console.log(user.userPhotos[0])
                    await image1Set( user.userPhotos[0] || "");
                    await image2Set( user.userPhotos[1] || "");
                    await image3Set( user.userPhotos[2] || "");
@@ -43,7 +42,6 @@ const PhotosScreen = ({navigation}) => {
         photosObj["userPhotos"] = [image1 , image2 , image3 , image4 , image5, image6 ]; 
         photosObj["profilePicture"] = image1 || image2 || image3 || image4 || image5|| image6 || ""; 
         photosObj["finishedProfile"] = true;
-        console.log(photosObj)
         fbOperations.updateUserInfo(user.email,photosObj).then(async ()=>{
             await setUser(photosObj);
             navigation.replace('Home');
