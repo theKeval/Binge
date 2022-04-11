@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 
   imgCont:{
     backgroundColor:'white',
-    borderRadius: 1, 
+    borderRadius: 10, 
     elevation: 1,
     flexDirection:'row',
     //borderColor: '#009B81',
