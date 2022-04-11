@@ -26,7 +26,7 @@ const InterestsScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Let others know what are you interested the most :)</Text>
+      <Text style={styles.header}>Let others know what are you interested the most in, from the list downbelow, pick a minimum of 5, then click continue to go to the next page. 🚀</Text>
 
       <View style={styles.interestList}>
         <TouchableHighlight {...touchProps} style={styles.button}><Text style={styles.buttonText}>Art</Text></TouchableHighlight>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   row: {
       justifyContent: 'center',
-      marginTop: 10,
+      marginTop: 5,
   },
   label: {
       textAlign: 'left',
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
   },
   interestList:{
-      marginTop: 40,
+      marginTop: 30,
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'center'
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
-    marginVertical: 5,
+    marginVertical: 3,
     borderRadius: 10,
     alignItems: 'center',
     borderColor: '#FFBE27',
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
-    marginVertical: 5,
+    marginVertical: 3,
     borderRadius: 10,
     alignItems: 'center',
     borderColor: '#FFBE27',
