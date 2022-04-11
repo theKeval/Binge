@@ -16,9 +16,9 @@ const ImageUploader = ({imageURL,onSetImageURL,widthImg, heightImg}) => {
                 alert("Sorry, we need camera roll permissions to make this work!");
             }
         }
-
+        imageSet(imageURL)
         return ;
-    }, []);  
+    }, [imageURL]);  
 
 
     const _takePhoto = async () => {
@@ -84,7 +84,7 @@ const ImageUploader = ({imageURL,onSetImageURL,widthImg, heightImg}) => {
 
 
           <TouchableOpacity onPress={() => {_pickImage() }} style={[styles.imgCont,{width: widthImg, height: heightImg,}]}>
-
+              
               
               {image ?
                   <Image source={{ uri: image }} style={{ width: widthImg, height: heightImg }} />

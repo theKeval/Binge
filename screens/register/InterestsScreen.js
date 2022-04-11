@@ -6,22 +6,34 @@ import * as fbOperations from '../../firebase/operations';
 const InterestsScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
 
-  const [isPress, setIsPress] = React.useState(false);
   const [interests, interestsSet] = useState([]);
   var touchProps = {
     activeOpacity: 1,
     underlayColor: '#FFBE27',
-    onHideUnderlay: () => setIsPress(false),
-    onShowUnderlay: () => setIsPress(true),
+
   }
-  React.useLayoutEffect(() => {
+
+  React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return  <TouchableOpacity onPress={() => {navigation.navigate('Photos') }}>
                       <Text style={styles.searchBtn}>SKIP</Text>
                     </TouchableOpacity> },
     });
-  }, [navigation]);
+    const unsubscribe = navigation.addListener('focus', async () => {
+
+        try {
+            if(user && user.email){
+               await interestsSet( user.interests)
+            }
+        } catch (error) {
+            console.log(error)    
+        }
+        
+    });
+
+    return unsubscribe;
+}, [navigation]);
   const toggleInterest = (selectedInterest,event)=> {
     if(interests.includes(selectedInterest)){
      
@@ -30,12 +42,14 @@ const InterestsScreen = ({navigation}) => {
       interestsSet([...interests,selectedInterest]);
     }
   }
+
+  
   const saveInterests = () =>{
     const interestsObj = {...user}
     interestsObj["interests"] = interests; 
     fbOperations.updateUserInfo(user.email,interestsObj).then(async ()=>{
         await setUser(interestsObj);
-        navigation.navigate('Home');
+        navigation.navigate('Photos');
     }).catch((e)=> {
         console.log(error)
     })

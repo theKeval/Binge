@@ -100,7 +100,7 @@ const LoginScreen = ({navigation}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={navigation.navigate("OTP")}
+          onPress={()=>{navigation.replace("OTP")}}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Access with phone number</Text>

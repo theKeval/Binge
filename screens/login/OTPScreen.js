@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity,TextInput } from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity,TextInput,Image } from 'react-native'
 import React , {useState,useRef,useContext} from 'react'
 import { auth, appFB } from '../../firebase/config'
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
@@ -6,8 +6,9 @@ import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-fi
 import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import * as fbOperations from '../../firebase/operations';
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
+import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
-const OTPScreen = () => {
+const OTPScreen = ({navigation}) => {
     const { user, setUser } = useContext(AuthenticatedUserContext);
 
     const recaptchaVerifier = useRef(null);
@@ -70,23 +71,24 @@ const OTPScreen = () => {
                       }
                       await fbOperations.Signup(phoneNumber.toString(), userObj)
                       await setUser(userObj);
+                      alert('Phone authentication successful 👍');
                       navigation.replace("AboutMe")
                 }
-                
-
-
-            })
+            }).catch(error =>{console.log(error.message)})
           } catch (err) {
               alert(`Error: ${err.message}`)
           }
     }
   return (
-    <View style={[styles.container,{ height: height, width: '100%', flex: 1, justifyContent: 'center' }]}>
+    <View style={[styles.container]} behavior="padding">
                 <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}
         firebaseConfig={appFB.options}
         // attemptInvisibleVerification
       />
+
+            <Image style={[styles.bingeLogo, {height: height*0.3}]} source={require('../../assets/bingelogo.png')} resizeMode="contain"/>
+
         {!verificationId ?  
             <View>
                 <View  style={styles.row}>
@@ -153,11 +155,18 @@ const OTPScreen = () => {
 export default OTPScreen
 
 const styles = StyleSheet.create({
+    bingeLogo: {
+        width:'100%',
+        maxWidth: 500,
+        maxHeight:160,
+        marginBottom: 50,
+      },
     container: {
         flex: 1,
         backgroundColor: '#FFFAEE',
         paddingHorizontal: '5%',
-        paddingTop: 10
+        justifyContent: 'center',
+        alignContent: 'center'
     },
     row: {
         justifyContent: 'center',
@@ -189,7 +198,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     btnSave: {
-      marginTop:20,
+      marginTop:10,
       backgroundColor: '#FFBE27',
       width: '100%',
       padding: 15,

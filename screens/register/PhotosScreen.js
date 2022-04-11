@@ -9,23 +9,44 @@ const PhotosScreen = ({navigation}) => {
     const {height, width} = useWindowDimensions();
     const { user, setUser } = useContext(AuthenticatedUserContext);
 
-    const [image1, image1Set] = useState(null);
-    const [image2, image2Set] = useState(null);
-    const [image3, image3Set] = useState(null);
-    const [image4, image4Set] = useState(null);
-    const [image5, image5Set] = useState(null);
-    const [image6, image6Set] = useState(null);
+    const [image1, image1Set] = useState("");
+    const [image2, image2Set] = useState("");
+    const [image3, image3Set] = useState("");
+    const [image4, image4Set] = useState("");
+    const [image5, image5Set] = useState("");
+    const [image6, image6Set] = useState("");
+    React.useEffect(() => {
 
+        const unsubscribe = navigation.addListener('focus', async () => {
+    
+            try {
+                if(user && user.email){
+                    console.log(user.userPhotos[0])
+                   await image1Set( user.userPhotos[0]);
+                   await image2Set( user.userPhotos[1]);
+                   await image3Set( user.userPhotos[2]);
+                   await image4Set( user.userPhotos[3]);
+                   await image5Set( user.userPhotos[4]);
+                   await image6Set( user.userPhotos[5]);
+                }
+            } catch (error) {
+                console.log(error)    
+            }
+            
+        });
+    
+        return unsubscribe;
+    }, [navigation]);
   
     const savePhotos = () =>{
         const photosObj = {...user}
         photosObj["userPhotos"] = [image1 , image2 , image3 , image4 , image5, image6 ]; 
-        photosObj["profilePicture"] = image1 || image2 || image3 || image4 || image5|| image6 || null; 
+        photosObj["profilePicture"] = image1 || image2 || image3 || image4 || image5|| image6 || ""; 
         photosObj["finishedProfile"] = true;
         fbOperations.updateUserInfo(user.email,photosObj).then(async ()=>{
             await setUser(photosObj);
-            navigation.navigate('Home');
-        }).catch((e)=> {
+            navigation.replace('Home');
+        }).catch((error)=> {
             console.log(error)
         })
     }
