@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View,TouchableOpacity,Button, Image, Platform,Share,StatusBar, ActivityIndicator} from 'react-native';
-import * as Clipboard from "expo-clipboard";
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as fbOperations from '../firebase/operations'

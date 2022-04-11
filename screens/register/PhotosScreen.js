@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,TouchableOpacity,Button, Image, Platform,Share,StatusBar, ActivityIndicator} from 'react-native';
 import React, { useState, useEffect } from 'react';
-import ImagePick from '../../components/imagePick';
+// import ImagePick from '../../components/imagePick';
 
 const PhotosScreen = ({navigation}) => {
     const [image, imageSet] = useState(null);
