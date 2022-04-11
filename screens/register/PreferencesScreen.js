@@ -1,7 +1,5 @@
 import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
 import React,{useState,useContext} from 'react'
-import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
 import {Picker} from '@react-native-picker/picker';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
@@ -185,4 +183,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 10,
     },
+    btnSave: {
+        marginTop:20,
+        backgroundColor: '#FFBE27',
+        width: '100%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+      },
 })

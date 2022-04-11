@@ -16,6 +16,7 @@ import PhotosScreen from './screens/register/PhotosScreen';
 import SplashScreen from './screens/login/SplashScreen';
 import MatchesScreen from './screens/home/MatchesScreen';
 import AccountScreen from './screens/home/AccountScreen';
+import OTPScreen from './screens/login/OTPScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -81,8 +82,10 @@ export default function App() {
 
       <NavigationContainer>
         <Stack.Navigator   initialRouteName='Splash'>
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
+          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
+          
+          <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
           <Stack.Screen name="AboutMe" component={AboutMeScreen} />
           <Stack.Screen name="Preferences" component={PreferencesScreen} />
           <Stack.Screen name="Interests" component={InterestsScreen} />
