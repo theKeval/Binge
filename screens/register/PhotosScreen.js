@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View,TouchableOpacity,Button, Image, Platform,Share,StatusBar, ActivityIndicator} from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import ImageUploader from '../../components/ImageUploader';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
+import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
 const PhotosScreen = ({navigation}) => {
     const {height, width} = useWindowDimensions();
+    const { user, setUser } = useContext(AuthenticatedUserContext);
 
     const [image1, image1Set] = useState(null);
     const [image2, image2Set] = useState(null);
@@ -18,21 +20,32 @@ const PhotosScreen = ({navigation}) => {
     React.useEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-                return  <TouchableOpacity onPress={() => {navigation.navigate('Home') }}>
+                return  <TouchableOpacity onPress={() => {savePhotos() }}>
                             <Text style={styles.searchBtn}>SKIP</Text>
                         </TouchableOpacity> },
         });
         const unsubscribe = navigation.addListener('focus', async () => {
-        try {
-        } catch (error) {
-            console.log(error)
-        }
+            try {
+            } catch (error) {
+                console.log(error)
+            }
             
         });
 
         return unsubscribe;
     }, [navigation]);    
-
+    const savePhotos = () =>{
+        const photosObj = {...user}
+        photosObj["userPhotos"] = [image1 , image2 , image3 , image4 , image5, image6 ]; 
+        photosObj["profilePicture"] = image1 || image2 || image3 || image4 || image5|| image6 || null; 
+        photosObj["finishedProfile"] = true;
+        fbOperations.updateUserInfo(user.email,photosObj).then(async ()=>{
+            await setUser(photosObj);
+            navigation.navigate('Finished');
+        }).catch((e)=> {
+            console.log(error)
+        })
+    }
     
   return (
     // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -62,15 +75,12 @@ const PhotosScreen = ({navigation}) => {
             </View>
         </View>
         <View  style={styles.row}>
-            <View  style={styles.col}>
-                <ImageUploader imageURL={image7} onSetImageURL={(url)=>{image7Set(url)}} widthImg={width*0.25} heightImg={width*0.25}></ImageUploader>
-            </View>
-            <View  style={styles.col}>
-                <ImageUploader imageURL={image8} onSetImageURL={(url)=>{image8Set(url)}} widthImg={width*0.25} heightImg={width*0.25}></ImageUploader>
-            </View>
-            <View  style={styles.col}>
-                <ImageUploader imageURL={image9} onSetImageURL={(url)=>{image9Set(url)}} widthImg={width*0.25} heightImg={width*0.25}></ImageUploader>
-            </View>
+            <TouchableOpacity
+            onPress={savePhotos}
+            style={styles.btnSave}
+            >
+                <Text style={styles.buttonText}>Finish Profile</Text>
+            </TouchableOpacity>
         </View>
     </View>
   )
@@ -78,10 +88,10 @@ const PhotosScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        
         backgroundColor: '#FFFAEE',
         paddingHorizontal: '5%',
-        paddingTop: 10
+        paddingTop: 20
     },
     col: {
         flexDirection: 'column',
@@ -96,12 +106,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignContent:'center',
     },
-    bigImg: {
-        
-    },
-    tinyImg: {
-        
-    },
+    btnSave: {
+        marginTop:20,
+        backgroundColor: '#FFBE27',
+        width: '100%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+      },
 })
 export default PhotosScreen
 

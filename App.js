@@ -19,7 +19,7 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator   initialRouteName='Splash'>
+        <Stack.Navigator   initialRouteName='Photos'>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
           
           <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
