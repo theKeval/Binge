@@ -90,7 +90,7 @@ const ImageUploader = ({imageURL,onSetImageURL,widthImg, heightImg}) => {
                   <Image source={{ uri: image }} style={{ width: widthImg, height: heightImg }} />
 
               : 
-                  <Ionicons name='image' size={widthImg*0.8} color='lightgray' />
+                  <Ionicons name='image' size={widthImg*0.8} color='#FFBE27' />
 
               }
             
@@ -107,13 +107,15 @@ const styles = StyleSheet.create({
 
 
   imgCont:{
-    backgroundColor:'grey',
+    backgroundColor:'white',
     borderRadius: 1, 
-    elevation: 2,
+    elevation: 1,
     flexDirection:'row',
-
+    //borderColor: '#009B81',
+    //borderWidth: 0,
     alignContent: 'center',
     justifyContent: 'center',
+    marginBottom: 4,
   }
 })
 
