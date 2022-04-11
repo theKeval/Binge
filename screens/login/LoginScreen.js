@@ -1,15 +1,49 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
-import React, { useEffect, useState, useContext} from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
+import React, { useEffect, useState, useContext, useRef } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image , Button, Platform} from 'react-native'
 import { auth, db } from '../../firebase/config'
 import * as fbOperations from '../../firebase/operations';
 import { LogBox } from 'react-native';
 import Logo from '../../assets/bingelogo.png'
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
-LogBox.ignoreLogs(['Setting a timer']);
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+
+LogBox.ignoreLogs(['Setting a timer','The Expo push notification service']);
 const LoginScreen = ({navigation}) => {
+
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const {height} = useWindowDimensions('');
   const [email, setEmail] = useState('')
@@ -72,8 +106,9 @@ const LoginScreen = ({navigation}) => {
       style={styles.container}
       behavior="padding"
     >
-      <Image style={[styles.bingeLogo, {height: height*0.3}]} source={require('../../assets/bingelogo.png')} resizeMode="contain"/>
-      
+      <TouchableOpacity style={{width: '100%',height: height*0.3}} onPress={async () => {await schedulePushNotification();}}>
+        <Image style={[styles.bingeLogo, {height: height*0.3}]} source={require('../../assets/bingelogo.png')} resizeMode="contain"/>
+      </TouchableOpacity>
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -142,7 +177,7 @@ const styles = StyleSheet.create({
     width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop:30,
   },
   button: {
     backgroundColor: '#FFBE27',
@@ -174,3 +209,48 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   }
 })
+
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You've got a notification! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+  try {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } catch (error) {
+    
+  }
+
+
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  return token;
+}
