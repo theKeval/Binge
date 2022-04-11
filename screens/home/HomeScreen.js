@@ -1,39 +1,42 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
-
 import React, {useContext} from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase/config'
+import Card from '../../components/BingeCard';
+import users from '../../assets/data/users';
+import AnimatedStack from '../../components/AnimatedStack';
 
-const HomeScreen = ({navigation}) => {
-  const { user, setUser } = useContext(AuthenticatedUserContext);
+const HomeScreen = () => {
+  const onSwipeLeft = user => {
+    console.warn('swipe left', user.name);
+  };
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        setUser(null)
-        navigation.replace("Login")
-      })
-      .catch(error => alert(error.message))
-  }
+  const onSwipeRight = user => {
+    console.warn('swipe right: ', user.name);
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <TouchableOpacity
-        onPress={handleSignOut}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
+    <View style={styles.pageContainer}>
+      <AnimatedStack
+        data={users}
+        renderItem={({item}) => <Card user={item} />}
+        onSwipeLeft={onSwipeLeft}
+        onSwipeRight={onSwipeRight}
+      />
     </View>
-  )
-}
+  );
+};
 
 export default HomeScreen
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    width: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
