@@ -11,6 +11,7 @@ import PreferencesScreen from './screens/register/PreferencesScreen';
 import InterestsScreen from './screens/register/InterestsScreen';
 import PhotosScreen from './screens/register/PhotosScreen';
 import SplashScreen from './screens/login/SplashScreen';
+import OTPScreen from './screens/login/OTPScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +20,9 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator   initialRouteName='Photos'>
+        <Stack.Navigator   initialRouteName='Login'>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
           
           <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
           <Stack.Screen name="AboutMe" component={AboutMeScreen} />

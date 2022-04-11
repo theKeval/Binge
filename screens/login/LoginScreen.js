@@ -36,6 +36,7 @@ const LoginScreen = ({navigation}) => {
           "lastLocationLon":0,
           "lastLocationLat":0,
           "userPhotos":[],
+          "interests": [],
           "finishedProfile": false,
         }
         await fbOperations.Signup(email, userObj)
@@ -97,12 +98,20 @@ const LoginScreen = ({navigation}) => {
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={navigation.navigate("OTP")}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Access with phone number</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   )
