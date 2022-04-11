@@ -17,6 +17,7 @@ import SplashScreen from './screens/login/SplashScreen';
 import MatchesScreen from './screens/home/MatchesScreen';
 import AccountScreen from './screens/home/AccountScreen';
 import OTPScreen from './screens/login/OTPScreen';
+import EventsScreen from './screens/home/EventsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,6 +44,8 @@ const TabNavigator = ({navigation}) => {
               iconName = focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline';
             } else if (route.name === 'AccountScreen') {
               iconName = focused ? 'person' : 'person-outline';
+            } else if (route.name === 'EventsScreen') {
+              iconName = focused ? 'calendar' : 'calendar-outline';
             }
             
             // else if (route.name === 'UsersListScreen') {
@@ -68,6 +71,7 @@ const TabNavigator = ({navigation}) => {
 
           <Tab.Screen name="HomeScreen" component={HomeScreen}  options={{headerShown: false, title:'People'}}/>
           <Tab.Screen name="MatchesScreen" component={MatchesScreen}  options={{ headerShown: false, title : 'Matches'}} />
+          <Tab.Screen name="EventsScreen" component={EventsScreen}  options={{ headerShown: false, title : 'Events'}} />
           <Tab.Screen name="AccountScreen" component={AccountScreen}  options={{ headerShown: false, title : 'Account'}} />
 
         </Tab.Navigator>
