@@ -1,38 +1,20 @@
-import React, {useState, useEffect, useLayoutEffect, useCallback} from 'react';
-import {TouchableOpacity, Text } from 'react-native';
-import {GiftedChat} from 'react-gifted-chat';
-import {collection, addDoc, orderBy, query, onSnapshot } from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
-import {auth, database } from '../../firebase/config';
-import { useNavigation } from '@react-navigation/native';
-import {AntDesign} from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-export default function Chat() {
+import { StyleSheet, Text, View , TouchableOpacity} from 'react-native'
+import React, {useState, useEffect, useContext, useCallback} from 'react';
+import {auth, db } from '../../firebase/config';
+import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
+import {collection, addDoc, orderBy, query, onSnapshot, where } from 'firebase/firestore';
+import { GiftedChat } from 'react-native-gifted-chat';
+const ChatScreen = ({navigation}) => {
+    const { user, setUser } = useContext(AuthenticatedUserContext);
     const [messages, setMessages]=useState([]);
-    const navigation = useNavigation();
+    React.useEffect(() => {
 
-    const onSignOut = () => {
-        signOut(auth).catch(error => console.log(error));
-    };
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-            <TouchableOpacity style={{marginRight: 10}} onPress={onSignOut}>
-                <AntDesign name="logout" size={24} color='white' style={{marginRight: 10}}/>
-            </TouchableOpacity>
-            )
-        });
-    }, [navigation]);
-
-    useLayoutEffect(() => {
-        const collectionRef = collection(database, 'chats');
+        const collectionRef = collection(db, 'chats');
         const q = query(collectionRef, orderBy('createdAt', 'desc'));
 
-        const unsubscribe = onSnapshot(q, snapshot => {
-            console.log('snapshot');
-            setMessages(
+        const unsubscribe = onSnapshot(q,async snapshot => {
+           
+            await setMessages(
                 snapshot.docs.map(doc => ({
                     _id: doc.id,
                     createdAt: doc.data().createdAt.toDate(),
@@ -40,9 +22,16 @@ export default function Chat() {
                     user: doc.data().user
                 }))
             )
-        });
-        return () => unsubscribe();
-    },  []);
+            console.log('messages',messages)
+        }, error => {
+                console.log(error)
+            });
+
+            
+
+        return unsubscribe;
+    }, [navigation]);
+
 
     const onSend = useCallback((messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
@@ -55,18 +44,29 @@ export default function Chat() {
             user
         });
     }, []);
-
-    return (
+  return (
+    <View>
+        <Text>messages : {messages.length}</Text>
+        <>
+          {messages.map(message => (
+            <Text key={message._id}>{message.text}</Text>
+          ))}
+        </>
         <GiftedChat
             messages={messages}
             onSend={messages => onSend(messages)}
             user={{
-                _id: auth?.currentUser?.email,
+                _id: user?.email,
             }}
             messagesContainerStyle={{
                 backgroundColor: 'white'
             }}
             
         />
-    )
+    </View>
+  )
 }
+
+export default ChatScreen
+
+const styles = StyleSheet.create({})

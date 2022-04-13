@@ -18,6 +18,7 @@ import MatchesScreen from './screens/home/MatchesScreen';
 import AccountScreen from './screens/home/AccountScreen';
 import OTPScreen from './screens/login/OTPScreen';
 import EventsScreen from './screens/home/EventsScreen';
+import ChatScreen from './screens/home/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
