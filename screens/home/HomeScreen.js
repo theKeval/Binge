@@ -31,6 +31,11 @@ const HomeScreen = () => {
         <Swiper
           containerStyle={{backgroundColor: 'transparent'}}
           cards={users}
+          stackSize={5}
+          cardIndex={0}
+          animateCardOpacity
+          verticalSwipe={false}
+
           renderCard={(card) => { return (
             <View key={card.id} style={styles.cardView}> 
               {/* , tailwind('bg-red-500 h-3/4 rounded-xl') */}
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     borderRadius: 15,
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: "#E8E8E8",
     justifyContent: "center",
     backgroundColor: "white",
