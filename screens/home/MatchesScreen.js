@@ -12,8 +12,8 @@ const MatchesScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
 
   return (
-    <SafeAreaView style={tw('mt-8')}>
-      <Header title="Matches" callEnabled={true} />
+    <SafeAreaView style={tw('mt-10')}>
+      <Header title="Matches" callEnabled={false} />
       <ChatList />
     </SafeAreaView>
   )

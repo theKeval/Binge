@@ -18,6 +18,7 @@ import MatchesScreen from './screens/home/MatchesScreen';
 import AccountScreen from './screens/home/AccountScreen';
 import OTPScreen from './screens/login/OTPScreen';
 import EventsScreen from './screens/home/EventsScreen';
+import MessageScreen from './screens/home/MessageScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,7 +86,7 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator   initialRouteName='Home'>
+        <Stack.Navigator   initialRouteName='Splash'>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
           <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
           
@@ -95,6 +96,7 @@ export default function App() {
           <Stack.Screen name="Interests" component={InterestsScreen} />
           <Stack.Screen name="Photos" component={PhotosScreen} />
           <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
+          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthenticatedUserProvider>
