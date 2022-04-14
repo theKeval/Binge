@@ -85,7 +85,7 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator   initialRouteName='Splash'>
+        <Stack.Navigator   initialRouteName='Home'>
           <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
           <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
           
