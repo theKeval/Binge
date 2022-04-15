@@ -17,6 +17,7 @@ const OTPScreen = ({navigation}) => {
     const [phoneNumber, phoneNumberSet] = useState('');
     const {height, width} = useWindowDimensions();
     const [codeNumber, codeNumberSet] = useState('');
+
     const loginOTP = async()=>{
 
         try {
@@ -32,6 +33,7 @@ const OTPScreen = ({navigation}) => {
             console.log({ text: `Error: ${err.message}`, color: 'red' });
           }
     }
+    
     const  OtpVerify = async () => {
 
         try {

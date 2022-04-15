@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/core'
-import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 import React, { useEffect, useState, useContext} from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import { auth, db } from '../../firebase/config'
@@ -7,16 +6,20 @@ import * as fbOperations from '../../firebase/operations';
 import { LogBox } from 'react-native';
 import Logo from '../../assets/bingelogo.png'
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
+import useAuth from '../../hooks/useAuth'
 
 LogBox.ignoreLogs(['Setting a timer']);
 const LoginScreen = ({navigation}) => {
-  const { user, setUser } = useContext(AuthenticatedUserContext);
+
+  const { loginWithEmailPassword, signUpWithEmailPassword, loading } = useAuth();
+
+  // const { user, setUser } = useContext(AuthenticatedUserContext);
+  
   const {height} = useWindowDimensions('');
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-
-
+  /* in-house login signup functions
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
@@ -66,6 +69,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch(error => alert(error.message))
   }
+  */
 
   return (
     <View
@@ -93,7 +97,7 @@ const LoginScreen = ({navigation}) => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={handleLogin}
+          onPress={loginWithEmailPassword(email, password)}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Login</Text>
@@ -106,7 +110,7 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.buttonOutlineText}>Access with phone number</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={signUpWithEmailPassword(email, password)}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>

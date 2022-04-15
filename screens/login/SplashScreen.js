@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View,Image } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = () => {
+  const navigation = useNavigation()
     const {height, width} = useWindowDimensions();
 
     React.useEffect(() => {
@@ -10,8 +12,9 @@ const SplashScreen = ({navigation}) => {
 
             try {
                 setTimeout(() => {
-                    navigation.replace('Login');
-                }, 5000);
+                    // navigation.replace('Login');
+                    navigation.navigate('Login')
+                }, 2000);
             } catch (error) {
                 console.log(error)    
             }
