@@ -2,16 +2,20 @@ import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
 import React, {useContext} from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import { auth } from '../../firebase/config'
+import Header from '../../components/header';
+import tw from 'tailwind-rn';
+import ChatList from '../../components/ChatList';
 
 const MatchesScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
 
   return (
-    <View style={styles.container}>
-      <Text>Matches Screen</Text>
-    </View>
+    <SafeAreaView style={tw('mt-10')}>
+      <Header title="Matches" callEnabled={false} />
+      <ChatList />
+    </SafeAreaView>
   )
 }
 
