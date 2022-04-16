@@ -1,16 +1,27 @@
 import { StyleSheet, Text, View,Image } from 'react-native'
-import React from 'react'
+import React, {useContext,useState} from 'react'
+import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
+
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 const SplashScreen = ({navigation}) => {
     const {height, width} = useWindowDimensions();
+    const { user, setUser } = useContext(AuthenticatedUserContext);
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
 
             try {
                 setTimeout(() => {
-                    navigation.replace('Login');
+                  if(user && user.finishedProfile){
+                    navigation.replace("Home")
+              
+                  }else if(user && !user.finishedProfile){
+                    navigation.replace("AboutMe")
+                  }else{
+                    navigation.replace("Login")
+
+                  }
                 }, 5000);
             } catch (error) {
                 console.log(error)    

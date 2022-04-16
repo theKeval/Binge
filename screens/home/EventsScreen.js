@@ -1,17 +1,37 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
-
-import React, {useContext} from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { auth } from '../../firebase/config'
+import tw from 'tailwind-rn';
+import React, {useContext,useState} from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
+import { FontAwesome } from '@expo/vector-icons'; 
+import EventRow from '../../components/EventRow';
 
 const EventsScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
+  const [eventsUser, eventsUserSet] = useState([]);
 
   return (
-    <View style={styles.container}>
-      <Text>Events Screen</Text>
-    </View>
+    <SafeAreaView style={tw('mt-10')}>
+      <View style={tw('p-1 flex flex-row justify-between items-center')}>
+        <Text style={tw('text-2xl font-bold pl-2')}>Events</Text>
+
+        <TouchableOpacity style={tw('mr-4 p-3')} onPress={()=>{navigation.navigate('EditEventScreen')}}>
+          <FontAwesome name="calendar-plus-o" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+      {eventsUser.length > 0 ? (
+        <FlatList 
+            style={tw('h-full')}
+            data={eventsUser}
+            keyExtractor={event => event.id}
+            renderItem={({event}) => <EventRow eventDetails={event}></EventRow>}
+        />
+    ) : (
+        <View style={tw('p-5')}>
+            <Text>No Events at the Moment</Text>
+        </View>
+    )}
+    </SafeAreaView>
   )
 }
 
