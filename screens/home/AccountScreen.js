@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
 import React, {useContext} from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { auth } from '../../firebase/config'
 import { Button } from 'react-native-web';
 import { AntDesign } from "@expo/vector-icons";
@@ -28,7 +28,11 @@ const AccountScreen = ({navigation}) => {
       </View>
       <TouchableOpacity>
         <AntDesign name="SettingOutlined" size={24} color='#009B81' />
+      </TouchableOpacity>
+      <TouchableOpacity>
         <AntDesign name="CameraOutlined" size={24} color='#009B81' />
+      </TouchableOpacity>
+      <TouchableOpacity>
         <AntDesign name="EditOutlined" size={24} color='#009B81' />
       </TouchableOpacity>
       <Text>Logged as: {auth.currentUser?.email}</Text>
