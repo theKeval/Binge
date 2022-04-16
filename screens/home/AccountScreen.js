@@ -4,6 +4,8 @@ import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProv
 import React, {useContext} from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase/config'
+import { Button } from 'react-native-web';
+import { AntDesign } from "@expo/vector-icons";
 
 const AccountScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
@@ -20,13 +22,17 @@ const AccountScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Logged as: {auth.currentUser?.email}</Text>
-      <TouchableOpacity
-        onPress={handleSignOut}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Sign out</Text>
+      <View>
+        <Image>{auth.currentUser?.Image}</Image>
+        <Text>{auth.currentUser?.displayName}</Text>
+      </View>
+      <TouchableOpacity>
+        <AntDesign name="SettingOutlined" size={24} color='#009B81' />
+        <AntDesign name="CameraOutlined" size={24} color='#009B81' />
+        <AntDesign name="EditOutlined" size={24} color='#009B81' />
       </TouchableOpacity>
+      <Text>Logged as: {auth.currentUser?.email}</Text>
+      <TouchableOpacity onPress={handleSignOut}style={styles.button}><Text style={styles.buttonText}>Sign out</Text></TouchableOpacity>
     </View>
   )
 }
