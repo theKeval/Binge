@@ -87,26 +87,18 @@ export default function App() {
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-          {user 
           
-          ? 
         <Stack.Navigator   initialRouteName='Splash'>
-          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
           <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen}  />
+          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} /> 
+          <Stack.Screen name="AboutMe" component={AboutMeScreen} /> 
+          <Stack.Screen name="Preferences" component={PreferencesScreen} /> 
+          <Stack.Screen name="Interests" component={InterestsScreen} /> 
+          <Stack.Screen name="Photos" component={PhotosScreen} /> 
+          <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} /> 
+          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} /> 
         </Stack.Navigator>
-          
-          : 
-          
-        <Stack.Navigator   initialRouteName='Home'>
-          <Stack.Screen name="AboutMe" component={AboutMeScreen} />
-          <Stack.Screen name="Preferences" component={PreferencesScreen} />
-          <Stack.Screen name="Interests" component={InterestsScreen} />
-          <Stack.Screen name="Photos" component={PhotosScreen} />
-          <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} />
-        </Stack.Navigator>
-          }
       </NavigationContainer>
     </AuthenticatedUserProvider>
   );
