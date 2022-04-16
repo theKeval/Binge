@@ -5,6 +5,7 @@ import React, {useContext} from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase/config'
 import { Button } from 'react-native-web';
+import { AntDesign } from "@expo/vector-icons";
 
 const AccountScreen = ({navigation}) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
