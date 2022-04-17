@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 import { AuthenticatedUserContext } from "../../navigation/AuthenticatedUserProvider";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect, useLayoutEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,15 +9,19 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import { auth } from "../../firebase/config";
+import { auth, db } from "../../firebase/config";
 import Card from "../../components/BingeCard";
 import users from "../../assets/data/users";
 import AnimatedStack from "../../components/AnimatedStack";
 import Swiper from "react-native-deck-swiper";
 import tw from "tailwind-rn";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const HomeScreen = () => {
+  const [profiles, setProfiles] = useState([]);
+  const swipeRef = useRef(null);
+
   const onSwipeLeft = (user) => {
     console.warn("swipe left", user.name);
   };
@@ -26,16 +30,33 @@ const HomeScreen = () => {
     console.warn("swipe right: ", user.name);
   };
 
-  const swipeRef = useRef(null);
+  useEffect(() => {
+    let unsub;
+
+    const fetchUsers = async () => {
+      unsub = onSnapshot(collection(db, 'users'), (snapshot) => {
+        setProfiles(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchUsers();
+    return unsub;
+  }, []);
+
+  console.log(profiles);
 
   return (
-    <SafeAreaView style={[styles.safeAreaView, tw('flex-1 ')]}>
-      
+    <SafeAreaView style={[styles.safeAreaView, tw("flex-1 ")]}>
       <View style={styles.swiperContainer}>
         <Swiper
           ref={swipeRef}
           containerStyle={{ backgroundColor: "transparent" }}
-          cards={users}
+          cards={profiles}
           stackSize={5}
           cardIndex={0}
           animateCardOpacity
@@ -66,11 +87,11 @@ const HomeScreen = () => {
             },
           }}
           renderCard={(card) => {
-            return (
+            return card ? (
               <View key={card.id} style={styles.cardView}>
                 {/* , tailwind('bg-red-500 h-3/4 rounded-xl') */}
                 {/* <Text style={styles.cardText}>{card.name}</Text> */}
-                <Image style={styles.cardImg} source={{ uri: card.image }} />
+                <Image style={styles.cardImg} source={{ uri: card.userPhotos[0] }} />
 
                 <View
                   style={[
@@ -81,38 +102,49 @@ const HomeScreen = () => {
                   ]}
                 >
                   <View>
-                    <Text style={tw("text-xl font-bold")}>{card.name}</Text>
+                    <Text style={tw("text-xl font-bold")}>{card.firstName}</Text>
                     <Text>{card.bio}</Text>
                   </View>
                   <Text style={tw("text-2xl font-bold")}>{card.age}</Text>
                 </View>
               </View>
+            ) : (
+              <View style={[styles.noMoreProfileView, styles.cardShadow]}>
+                {/* tw('relative bg-white h-3/4 rounded-lg justify-center items-center') */}
+                <Text style={tw("font-bold pb-5")}>No More Profiles</Text>
+                <Image
+                  height={100}
+                  width={100}
+                  style={[tw("h-20 w-20"), styles.sadfaceImg]}
+                  source={{
+                    uri: "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/crying-face_1f622.png",
+                  }}
+                />
+              </View>
             );
           }}
         />
-
       </View>
 
       <View style={tw("flex flex-row justify-evenly mb-5")}>
-          <TouchableOpacity
-            onPress={() => swipeRef.current.swipeLeft()}
-            style={tw(
-              "items-center justify-center rounded-full h-16 w-16 bg-red-200"
-            )}
-          >
-            <Entypo name="cross" size={24} color='red' />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => swipeRef.current.swipeLeft()}
+          style={tw(
+            "items-center justify-center rounded-full h-16 w-16 bg-red-200"
+          )}
+        >
+          <Entypo name="cross" size={24} color="red" />
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => swipeRef.current.swipeRight()}
-            style={tw(
-              "items-center justify-center rounded-full h-16 w-16 bg-green-200"
-            )}
-          >
-            <AntDesign name="heart" size={24} color='green' />
-          </TouchableOpacity>
-        </View>
-
+        <TouchableOpacity
+          onPress={() => swipeRef.current.swipeRight()}
+          style={tw(
+            "items-center justify-center rounded-full h-16 w-16 bg-green-200"
+          )}
+        >
+          <AntDesign name="heart" size={24} color="green" />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -183,4 +215,17 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 5,
   },
+  noMoreProfileView: {
+    // flex: 1,
+    position: "relative",
+    borderRadius: 15,
+    height: "87%",
+    // borderWidth: 2,
+    borderColor: "#E8E8E8",
+    justifyContent: "center",
+    backgroundColor: "white",
+    marginBottom: 100,
+    alignItems: "center",
+  },
+  sadfaceImg: {},
 });
