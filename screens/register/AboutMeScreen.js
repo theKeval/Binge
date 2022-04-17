@@ -24,13 +24,24 @@ const AboutMeScreen = ({ navigation }) => {
   const [dob, dobSet] = useState("");
   const [gender, genderSet] = useState("female");
 
+  const shouldNavigate = () => {
+    if(!firstName || !dob) {
+        alert('First name and Date of birth is mandatory');
+        return false;
+    }
+
+    return true;
+  }
+
   const saveAboutMe = () => {
     const aboutMeObj = { ...user };
     aboutMeObj["firstName"] = firstName;
     aboutMeObj["lastName"] = lastName;
     aboutMeObj["dob"] = dob;
     aboutMeObj["gender"] = gender;
-    fbOperations
+
+    if(shouldNavigate()) {
+        fbOperations
       .updateUserInfo(user.email, aboutMeObj)
       .then(async () => {
         await setUser(aboutMeObj);
@@ -40,6 +51,11 @@ const AboutMeScreen = ({ navigation }) => {
       .catch((e) => {
         console.log(error);
       });
+    } else {
+        // don't navigate to next screen
+    }
+
+    
   };
 
   React.useEffect(() => {
@@ -48,7 +64,8 @@ const AboutMeScreen = ({ navigation }) => {
         return (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Preferences");
+                // navigation.navigate("Preferences");
+                saveAboutMe();
             }}
           >
             <Text style={styles.searchBtn}>SKIP</Text>
@@ -59,6 +76,7 @@ const AboutMeScreen = ({ navigation }) => {
     const unsubscribe = navigation.addListener("focus", async () => {
       try {
         if (user && user.email) {
+            console.log(user);
           await firstNameSet(user.firstName);
           await lastNameSet(user.lastName);
           if (user.dob !== "") {
