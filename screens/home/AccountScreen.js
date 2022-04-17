@@ -3,7 +3,7 @@ import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProv
 
 import React, {useContext, useState} from 'react'
 import tw from "tailwind-rn";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, Button } from 'react-native'
 import { auth } from '../../firebase/config'
 import { AntDesign, Entypo, Ionicons, Feather } from "@expo/vector-icons";
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
@@ -28,27 +28,15 @@ const AccountScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.profile}>
       <ImageUploader imageURL={image1} onSetImageURL={(url)=>{image1Set(url)}} widthImg={width*0.625} heightImg={width*0.625}></ImageUploader>
-        <Text style={styles.username}>User{auth.currentUser?.setUser}</Text>
+        <Text style={styles.username}>User{auth.currentUser?.firstName}</Text>
       </View>
 
       <View style={tw("flex flex-row justify-between mb-5")}>
 
-        <TouchableOpacity style={tw(
-              "items-center justify-center rounded-full mr-5 h-16 w-16 bg-white"
-            )}>
-          <Feather name="settings" size={44} color='#009B81' />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={tw(
-              "items-center justify-center rounded-full mr-5 h-16 w-16 bg-white"
-            )}>
-          <AntDesign name="camera" size={44} color='#009B81' />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={tw(
+      <TouchableOpacity onPress={()=> navigation.replace("AboutMe")} style={tw(
               "items-center justify-center rounded-full h-16 w-16 bg-white"
             )}>
-          <Feather name="edit" size={44} color='#009B81' />
+          <Feather name="settings" size={44} color='#009B81' />
         </TouchableOpacity>
       </View>
 
