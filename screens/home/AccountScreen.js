@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, Component} from 'react'
 import tw from "tailwind-rn";
-import { StyleSheet, Text, TouchableOpacity, View, Image, Button } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { auth } from '../../firebase/config'
 import { AntDesign, Entypo, Ionicons, Feather } from "@expo/vector-icons";
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
@@ -27,8 +27,8 @@ const AccountScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-      <ImageUploader imageURL={image1} onSetImageURL={(url)=>{image1Set(url)}} widthImg={width*0.625} heightImg={width*0.625}></ImageUploader>
-        <Text style={styles.username}>User{auth.currentUser?.firstName}</Text>
+      <Image source={{uri: 'user.profilePicture'}}></Image>
+        <Text style={styles.username}>{user.firstName +" "+user.lastName}</Text>
       </View>
 
       <View style={tw("flex flex-row justify-between mb-5")}>
