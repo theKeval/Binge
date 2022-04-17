@@ -19,12 +19,12 @@ import AccountScreen from './screens/home/AccountScreen';
 import OTPScreen from './screens/login/OTPScreen';
 import EventsScreen from './screens/home/EventsScreen';
 import MessageScreen from './screens/home/MessageScreen';
+import EditEventScreen from './screens/home/EditEventScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = ({navigation}) => {
-  const { user, setUser} = useContext(AuthenticatedUserContext) ;
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
 
@@ -73,6 +73,7 @@ const TabNavigator = ({navigation}) => {
           <Tab.Screen name="HomeScreen" component={HomeScreen}  options={{headerShown: false, title:'People'}}/>
           <Tab.Screen name="MatchesScreen" component={MatchesScreen}  options={{ headerShown: false, title : 'Matches'}} />
           <Tab.Screen name="EventsScreen" component={EventsScreen}  options={{ headerShown: false, title : 'Events'}} />
+         
           <Tab.Screen name="AccountScreen" component={AccountScreen}  options={{ headerShown: false, title : 'Account'}} />
 
         </Tab.Navigator>
@@ -82,21 +83,24 @@ const TabNavigator = ({navigation}) => {
 
 
 export default function App() {
+  const { user, setUser} = useContext(AuthenticatedUserContext) ;
+
   return (
     <AuthenticatedUserProvider>
 
       <NavigationContainer>
-        <Stack.Navigator   initialRouteName='Splash'>
-          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} />
           
+        <Stack.Navigator   initialRouteName='Splash'>
           <Stack.Screen options={{ headerShown: false }} name="Splash" component={SplashScreen} />
-          <Stack.Screen name="AboutMe" component={AboutMeScreen} />
-          <Stack.Screen name="Preferences" component={PreferencesScreen} />
-          <Stack.Screen name="Interests" component={InterestsScreen} />
-          <Stack.Screen name="Photos" component={PhotosScreen} />
-          <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} />
+          <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen}  />
+          <Stack.Screen options={{ headerShown: false }} name="OTP" component={OTPScreen} /> 
+          <Stack.Screen name="AboutMe" component={AboutMeScreen} /> 
+          <Stack.Screen name="Preferences" component={PreferencesScreen} /> 
+          <Stack.Screen name="Interests" component={InterestsScreen} /> 
+          <Stack.Screen name="Photos" component={PhotosScreen} /> 
+          <Stack.Screen name="EditEventScreen" component={EditEventScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} /> 
+          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} /> 
         </Stack.Navigator>
       </NavigationContainer>
     </AuthenticatedUserProvider>

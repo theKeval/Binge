@@ -20,4 +20,3 @@ export default Firebase;
 export const auth = Firebase.auth();
 export const db = getFirestore(Firebase);
 export const appFB = getApp();
-
