@@ -1,6 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import { AuthenticatedUserContext } from "../../navigation/AuthenticatedUserProvider";
-import React, { useContext, useRef, useEffect, useLayoutEffect, useState } from "react";
+import React, {
+  useContext,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import {
   StyleSheet,
   Text,
@@ -16,11 +22,20 @@ import AnimatedStack from "../../components/AnimatedStack";
 import Swiper from "react-native-deck-swiper";
 import tw from "tailwind-rn";
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
-import { collection, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 const HomeScreen = () => {
   const [profiles, setProfiles] = useState([]);
   const swipeRef = useRef(null);
+  const { user, setUser } = useContext(AuthenticatedUserContext);
 
   const onSwipeLeft = (user) => {
     console.warn("swipe left", user.name);
@@ -34,21 +49,67 @@ const HomeScreen = () => {
     let unsub;
 
     const fetchUsers = async () => {
-      unsub = onSnapshot(collection(db, 'users'), (snapshot) => {
-        setProfiles(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        );
-      });
+      const passes = await getDocs(collection(db, "users", user.email, "passes")).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.data().email)
+      );
+
+      const likes = await getDocs(collection(db, "users", user.email, "likes")).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.data().email)
+      );
+
+      const passedUserEmails = (await passes).length > 0 ? await passes : ["passes"];
+      const likedUserEmails = (await likes).length > 0 ? await likes : ["likes"];
+      console.log(passedUserEmails);
+      console.log(likedUserEmails);
+
+      unsub = onSnapshot(
+        query(
+          collection(db, "users"),
+          where("email", "not-in", [...passedUserEmails, ...likedUserEmails])
+        ),
+        (snapshot) => {
+          setProfiles(
+            snapshot.docs
+              .filter((doc) => doc.data().email !== user.email)
+              .map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }))
+          );
+        }
+      );
     };
+
+    // const fetchUsers = async () => {
+    //   unsub = onSnapshot(collection(db, "users"), (snapshot) => {
+    //     snapshot.docs.forEach( (item) => console.log(item.data()))
+    //   });
+    // };
 
     fetchUsers();
     return unsub;
   }, []);
 
-  console.log(profiles);
+  const swipeLeft = (cardIndex) => {
+    if (!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`You swiped PASS on ${userSwiped.firstName}`);
+
+    setDoc(doc(db, "users", user.email, "passes", userSwiped.email), userSwiped);
+  };
+
+  const swipeRight = async (cardIndex) => {
+    if(!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`You swiped LIKE on ${userSwiped.firstName}`);
+
+    setDoc(doc(db, 'users', user.email, 'likes', userSwiped.email), userSwiped);
+  };
+
+  // console.log("user: " + user.email);
+  // console.log(profiles);
 
   return (
     <SafeAreaView style={[styles.safeAreaView, tw("flex-1 ")]}>
@@ -61,11 +122,13 @@ const HomeScreen = () => {
           cardIndex={0}
           animateCardOpacity
           verticalSwipe={false}
-          onSwipeLeft={() => {
+          onSwipedLeft={(cardIndex) => {
             console.log("Swipe Left");
+            swipeLeft(cardIndex);
           }}
-          onSwipeRight={() => {
+          onSwipedRight={(cardIndex) => {
             console.log("Swipe Right");
+            swipeRight(cardIndex);
           }}
           overlayLabels={{
             left: {
@@ -91,7 +154,10 @@ const HomeScreen = () => {
               <View key={card.id} style={styles.cardView}>
                 {/* , tailwind('bg-red-500 h-3/4 rounded-xl') */}
                 {/* <Text style={styles.cardText}>{card.name}</Text> */}
-                <Image style={styles.cardImg} source={{ uri: card.userPhotos[0] }} />
+                <Image
+                  style={styles.cardImg}
+                  source={{ uri: card.profilePicture }}
+                />
 
                 <View
                   style={[
@@ -102,7 +168,9 @@ const HomeScreen = () => {
                   ]}
                 >
                   <View>
-                    <Text style={tw("text-xl font-bold")}>{card.firstName}</Text>
+                    <Text style={tw("text-xl font-bold")}>
+                      {card.firstName}
+                    </Text>
                     <Text>{card.bio}</Text>
                   </View>
                   <Text style={tw("text-2xl font-bold")}>{card.age}</Text>
@@ -128,7 +196,7 @@ const HomeScreen = () => {
 
       <View style={tw("flex flex-row justify-evenly mb-5")}>
         <TouchableOpacity
-          onPress={() => swipeRef.current.swipeLeft()}
+          onPress={() => swipeRef.current.swipedLeft()}
           style={tw(
             "items-center justify-center rounded-full h-16 w-16 bg-red-200"
           )}
@@ -137,7 +205,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => swipeRef.current.swipeRight()}
+          onPress={() => swipeRef.current.swipedRight()}
           style={tw(
             "items-center justify-center rounded-full h-16 w-16 bg-green-200"
           )}
