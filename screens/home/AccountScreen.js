@@ -27,7 +27,7 @@ const AccountScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-      <Image source={{uri: 'user.profilePicture'}}></Image>
+      <Image source={user.profilePicture} widthImg={width*0.625} heightImg={width*0.625}></Image>
         <Text style={styles.username}>{user.firstName +" "+user.lastName}</Text>
       </View>
 
