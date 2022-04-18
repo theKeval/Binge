@@ -96,63 +96,61 @@ const AboutMeScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={styles.label}>First Name:</Text>
-        <TextInput
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={(text) => firstNameSet(text)}
-          style={[styles.textField]}
-        />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.label}>Last Name:</Text>
-        <TextInput
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={(text) => lastNameSet(text)}
-          style={[styles.textField]}
-        />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.label}>Date of birth:</Text>
-        {show && (
-          <DateTimePicker
-            value={currentDate}
-            mode={"date"}
-            onChange={(event, selectedDate) => {
-              setShow(false);
-              if (event.type !== "dismissed") {
-                dobSet(moment(selectedDate).format("DD-MMM-YYYY"));
-              }
-            }}
-          />
-        )}
-        <TextInput
-          onPressIn={async () => {
-            await setShow(true);
-          }}
-          placeholder="DOB"
-          value={dob}
-          style={[styles.textField]}
-        />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.label}>Gender:</Text>
-        <View style={[styles.field]}>
-          <Picker
-            selectedValue={gender}
-            onValueChange={(itemValue, itemIndex) => genderSet(itemValue)}
-          >
-            <Picker.Item label="-- Select --" value="" />
-            <Picker.Item label="Male" value="male" />
-            <Picker.Item label="Female" value="female" />
-            <Picker.Item label="Non-binary" value="nonBinary" />
-            <Picker.Item label="I rather not say" value="notSay" />
-          </Picker>
+    <View  style ={styles.container}>
+        <View  style={styles.row}>
+            <Text style={styles.label}>First Name:</Text>
+            <TextInput
+                placeholder='First Name'
+                value={firstName}
+                onChangeText={text => firstNameSet(text)}
+                style={[styles.textField]}
+            />
         </View>
-      </View>
+        <View  style={styles.row}>
+            <Text style={styles.label}>Last Name:</Text>
+            <TextInput
+                placeholder='Last Name'
+                value={lastName}
+                onChangeText={text => lastNameSet(text)}
+                style={[styles.textField]}
+            />
+        </View>
+        <View  style={styles.row}>
+            <Text style={styles.label}>Date of birth:</Text>
+            {show && (
+                <DateTimePicker
+                value={currentDate}
+                mode={'date'}
+                onChange={(event, selectedDate) => {setShow(false);if(event.type !== 'dismissed') {dobSet(moment(selectedDate).format('DD-MMM-YYYY'))};}}
+                />
+            )}
+                <TextInput
+                    onPressIn={async ()=>{await setShow(true)}}
+                    placeholder='DOB'
+                    value={dob}
+                    style={[styles.textField]}
+                />
+
+        </View>
+        <View  style={styles.row}>
+            <Text style={styles.label}>Gender:</Text>
+            <View style={[styles.field]}>
+                <Picker
+                    
+                    selectedValue={gender}
+                    onValueChange={(itemValue, itemIndex) =>
+                        genderSet(itemValue)
+                    }>
+                    <Picker.Item label="-- Select --" value="" />
+                    <Picker.Item label="Male" value="male" />
+                    <Picker.Item label="Female" value="female" />
+                    <Picker.Item label="Non-binary" value="nonBinary" />
+                    <Picker.Item label="I rather not say" value="notSay" />
+                </Picker>
+            </View>
+
+        </View>
+      {/* </View> */}
       <View style={styles.row}>
         <TouchableOpacity onPress={saveAboutMe} style={styles.btnSave}>
           <Text style={styles.buttonText}>Save and Continue</Text>

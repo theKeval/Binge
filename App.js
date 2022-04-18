@@ -21,6 +21,7 @@ import EventsScreen from './screens/home/EventsScreen';
 import MessageScreen from './screens/home/MessageScreen';
 import EditEventScreen from './screens/home/EditEventScreen';
 import MatchScreen from './screens/home/MatchScreen';
+import DetailEventScreen from './screens/home/DetailEventScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -100,6 +101,7 @@ export default function App() {
           <Stack.Screen name="Interests" component={InterestsScreen} /> 
           <Stack.Screen name="Photos" component={PhotosScreen} /> 
           <Stack.Screen name="EditEventScreen" component={EditEventScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DetailEventScreen" component={DetailEventScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} /> 
           <Stack.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} />
 

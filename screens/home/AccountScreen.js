@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProvider';
 
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, Component} from 'react'
 import tw from "tailwind-rn";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import { auth } from '../../firebase/config'
@@ -26,33 +26,22 @@ const AccountScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
-      <ImageUploader imageURL={image1} onSetImageURL={(url)=>{image1Set(url)}} widthImg={width*0.625} heightImg={width*0.625}></ImageUploader>
-        <Text style={styles.username}>User{auth.currentUser?.setUser}</Text>
+      <Image source={{ uri: user.profilePicture  }} style={{ width: width*0.625, height: width*0.625 , borderWidth: 10, borderColor: "#009B81", borderRadius: 50}} />
+
+      <View style={[styles.profile]}>
+        
+        <Text style={styles.username}>{user.firstName +" "+user.lastName}</Text>
       </View>
 
       <View style={tw("flex flex-row justify-between mb-5")}>
 
-        <TouchableOpacity style={tw(
-              "items-center justify-center rounded-full mr-5 h-16 w-16 bg-white"
+        <TouchableOpacity onPress={()=> navigation.replace("AboutMe")} style={tw(
+              "items-center justify-center rounded-full h-16 w-16 bg-white"
             )}>
           <Feather name="settings" size={44} color='#009B81' />
         </TouchableOpacity>
-
-        <TouchableOpacity style={tw(
-              "items-center justify-center rounded-full mr-5 h-16 w-16 bg-white"
-            )}>
-          <AntDesign name="camera" size={44} color='#009B81' />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={tw(
-              "items-center justify-center rounded-full h-16 w-16 bg-white"
-            )}>
-          <Feather name="edit" size={44} color='#009B81' />
-        </TouchableOpacity>
       </View>
 
-      <Text>Logged as: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut}style={styles.button}><Text style={styles.buttonText}>Sign out</Text></TouchableOpacity>
     </View>
   )

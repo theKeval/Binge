@@ -100,32 +100,108 @@ export const GetUserInfo = (emailAddress) => {
 };
 
 export const updateUserInfo = (id, user) => {
-  return Update(user, false, "users", id);
-};
+    return Update(user, false,"users", id);
+  }
 
-export const uploadImageAsync = async (uri) => {
-  // Why are we using XMLHttpRequest? See:
-  // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
+
+  export  const uploadImageAsync = async (uri) => {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+    
+    const fileRef = ref(getStorage(), uuid.v4());
+    const result = await uploadBytes(fileRef, blob);
+  
+    // We're done with the blob, close and release it
+    blob.close();
+  
+    return await getDownloadURL(fileRef);
+  }
+// #endregion
+
+// #region Events related operations
+export  const getEvents = async () => {
+  // console.log("getting all users");
+  var events = [];
+
+  const querySnapshot = await getDocs(collection(db,"events"));
+  querySnapshot.forEach((doc) => {
+    const event = doc.data();
+    if(moment(event.date).diff(moment(event.date),'days') >= 0){
+        events.push(event);
+    }
+
   });
+  
+  return events;
+}
 
-  const fileRef = ref(getStorage(), uuid.v4());
-  const result = await uploadBytes(fileRef, blob);
+export  const getUserEvents = async (userId) => {
+    // console.log("getting all users");
+    var events = [];
+  
+    const querySnapshot = await getDocs(collection(db,"events"));
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      const event = doc.data();
+      if(event.createdBy === userId){
+        events.push(event);
+      }
+      
+    });
+    
+    return events;
+  }
+  export  const getPastEvents = async (userId) => {
+    // console.log("getting all users");
+    var events = [];
+  
+    const querySnapshot = await getDocs(collection(db,"events"));
+    querySnapshot.forEach((doc) => {
+      
+      const event = doc.data();
+      if(moment(event.date).diff(moment(event.date),'days') < 0){
+          events.push(event);
+      }
+    });
+    
+    return events;
+  }
+export  const getPlaces = async () => {
+    // console.log("getting all users");
+    var places = [];
+  
+    const querySnapshot = await getDocs(collection(db,"places"));
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      const place = doc.data();
+      places.push(place);
+    });
+    
+    return places;
+}
 
-  // We're done with the blob, close and release it
-  blob.close();
+export const createEvent = async (event) => {
+    const id = uuid.v4();
+    return Create('events', id, {...event, id:id});
+}
 
-  return await getDownloadURL(fileRef);
-};
+export const updateEvent = (id, event) => {
+    return Update(event, false,"events", id);
+  }
+  export const deleteEvent = (id) => {
+    return Delete("events",id);
+  }
 // #endregion
