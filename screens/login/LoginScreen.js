@@ -91,7 +91,7 @@ const LoginScreen = ({navigation}) => {
           "interests": [],
           "finishedProfile": false,
         }
-        await fbOperations.Signup(email, userObj)
+        await fbOperations.Signup(email.toLowerCase(), userObj)
         setUser(userObj);
         navigation.replace("AboutMe")
       })
@@ -132,6 +132,7 @@ const LoginScreen = ({navigation}) => {
         <TextInput
           placeholder="Email"
           value={email}
+          keyboardType = 'email-address'
           onChangeText={text => setEmail(text)}
           style={styles.input}
         />

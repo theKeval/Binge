@@ -153,10 +153,10 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={[styles.safeAreaView, tw("flex-1 ")]}>
-      <View style={styles.swiperContainer}>
+      <View style={[styles.swiperContainer, ]}>
         <Swiper
           ref={swipeRef}
-          containerStyle={{ backgroundColor: "transparent" }}
+          containerStyle={{ backgroundColor: "transparent"}}
           cards={profiles}
           stackSize={5}
           cardIndex={0}
@@ -234,12 +234,12 @@ const HomeScreen = () => {
         />
       </View>
 
-      <View style={tw("flex flex-row justify-evenly mb-5")}>
+      <View style={tw("flex flex-row justify-evenly mb-1")}>
         <TouchableOpacity
           onPress={() => swipeRef.current.swipeLeft()}
-          style={tw(
+          style={[tw(
             "items-center justify-center rounded-full h-16 w-16 bg-red-200"
-          )}
+          ), ]} // { height: '50%', width: '50%' }
         >
           <Entypo name="cross" size={24} color="red" />
         </TouchableOpacity>
@@ -300,7 +300,8 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     justifyContent: "center",
     backgroundColor: "white",
-    marginBottom: 100,
+    marginBottom: '20%',
+    // height: '70%'
   },
   cardImg: {
     // position: 'absolute',
