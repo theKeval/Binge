@@ -23,6 +23,7 @@ const AboutMeScreen = ({ navigation }) => {
   const [lastName, lastNameSet] = useState("");
   const [dob, dobSet] = useState("");
   const [gender, genderSet] = useState("female");
+  const [aboutMe, aboutMeSet] = useState("");
 
   const shouldNavigate = () => {
     if(!firstName || !dob) {
@@ -39,6 +40,7 @@ const AboutMeScreen = ({ navigation }) => {
     aboutMeObj["lastName"] = lastName;
     aboutMeObj["dob"] = dob;
     aboutMeObj["gender"] = gender;
+    aboutMeObj["aboutMe"] = aboutMe;
 
     if(shouldNavigate()) {
         fbOperations
@@ -79,6 +81,7 @@ const AboutMeScreen = ({ navigation }) => {
             console.log(user);
           await firstNameSet(user.firstName);
           await lastNameSet(user.lastName);
+          await aboutMeSet(user.aboutMe);
           if (user.dob !== "") {
             await dobSet(user.dob);
             try {
@@ -148,8 +151,19 @@ const AboutMeScreen = ({ navigation }) => {
                     <Picker.Item label="I rather not say" value="notSay" />
                 </Picker>
             </View>
-
         </View>
+        <View  style={styles.row}>
+            <Text style={styles.label}>About me:</Text>
+            <TextInput
+                placeholder='About me'
+                value={aboutMe}
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={text => aboutMeSet(text)}
+                style={[styles.textField,{textAlignVertical:'top'}]}
+            />
+        </View>
+
       {/* </View> */}
       <View style={styles.row}>
         <TouchableOpacity onPress={saveAboutMe} style={styles.btnSave}>

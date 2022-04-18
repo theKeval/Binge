@@ -106,7 +106,7 @@ const MessageScreen = () => {
             value={input}
           />
 
-          <Button title="Send" color="#FF5864" onPress={sendMessage} />
+          <Button title="Send" color="#FFBE27" onPress={sendMessage} />
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0782F9",
     width: "60%",
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 25,
     alignItems: "center",
     marginTop: 40,
   },
