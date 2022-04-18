@@ -22,7 +22,7 @@ const SplashScreen = ({navigation}) => {
                     navigation.replace("Login")
 
                   }
-                }, 5000);
+                }, 2000);
             } catch (error) {
                 console.log(error)    
             }

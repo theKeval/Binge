@@ -1,11 +1,22 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import users from "../assets/data/users";
 import tw from "tailwind-rn";
+import { AuthenticatedUserContext } from "../navigation/AuthenticatedUserProvider";
+import getMatchedUserInfo from "../lib/getMatchedUserInfo";
 
 const ChatRow = ({ matchDetails }) => {
   const navigation = useNavigation();
+  const { user, setUser } = useContext(AuthenticatedUserContext);
+  const [matchedUserInfo, setMatchedUserInfo] = useState(null);
+
+  useEffect(() => {
+    setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.id))
+  }, [matchDetails, user]);
+
+  console.log("matchDetails: " + JSON.stringify(matchDetails));
+  console.log("matchedUserInfo: " + JSON.stringify(matchedUserInfo));
 
   return (
     <TouchableOpacity
@@ -17,11 +28,11 @@ const ChatRow = ({ matchDetails }) => {
     >
       <Image
         style={tw("rounded-full h-16 w-16 mr-4")}
-        source={{ uri: matchDetails.image }}
+        source={{ uri: matchedUserInfo ? matchedUserInfo.profilePicture : "" }}
       />
 
       <View>
-        <Text style={tw("text-lg font-semibold")}>{matchDetails.name}</Text>
+        <Text style={tw("text-lg font-semibold")}>{matchedUserInfo ? matchedUserInfo.firstName : ""}</Text>
 
         <Text>Let's go Food hunting!</Text>
       </View>

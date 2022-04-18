@@ -40,7 +40,7 @@ const MatchScreen = () => {
         style={tw("bg-white m-5 px-10 py-8 rounded-full mt-20")}
         onPress={() => {
           navigation.goBack();
-          navigation.navigate("MessageScreen");
+          navigation.navigate("MatchesScreen");
         }}
       >
         <Text style={tw("text-center")}>Send a Message</Text>
