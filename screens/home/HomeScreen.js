@@ -43,6 +43,10 @@ const HomeScreen = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const navigation = useNavigation();
 
+  // console.log(user.dob);
+  const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
+  // console.log(getAge(user.dob));
+
   useEffect(() => {
     let unsub;
 
@@ -207,9 +211,9 @@ const HomeScreen = () => {
                     <Text style={tw("text-xl font-bold")}>
                       {card.firstName}
                     </Text>
-                    <Text>{card.bio}</Text>
+                    <Text>{card.aboutMe}</Text>
                   </View>
-                  <Text style={tw("text-2xl font-bold")}>{card.age}</Text>
+                  <Text style={tw("text-2xl font-bold")}>{getAge(card.dob)}</Text>
                 </View>
               </View>
             ) : (

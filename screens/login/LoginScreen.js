@@ -74,7 +74,7 @@ const LoginScreen = ({navigation}) => {
       .createUserWithEmailAndPassword(email, password)
       .then(async userCredentials => {
         const userObj = {
-          "email": email,
+          "email": email.toLowerCase(),
           "id": userCredentials.user.uid,
           "firstName": "",
           "lastName": "",

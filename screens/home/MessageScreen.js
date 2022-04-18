@@ -66,7 +66,7 @@ const MessageScreen = () => {
   };
 
   return (
-    <View style={tw("flex-1 mt-10")}>
+    <View style={[tw("flex-1 mt-10"), {backgroundColor: '#FFFAEE'}]}>
       <Header
         title={getMatchedUserInfo(matchDetails.users, user.id).firstName}
         callEnabled={true}

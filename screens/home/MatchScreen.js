@@ -10,7 +10,7 @@ const MatchScreen = () => {
   const { loggedInProfile, userSwiped } = params;
 
   return (
-    <View style={[tw("h-full bg-red-500 pt-20"), { opacity: 0.89 }]}>
+    <View style={[tw("h-full pt-20"), { opacity: 0.92, backgroundColor: '#FFBE27' }]}>
       <View style={tw("justify-center px-10 pt-20")}>
         <Image
           style={tw("h-20 w-full")}
