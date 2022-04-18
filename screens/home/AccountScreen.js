@@ -26,7 +26,7 @@ const AccountScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: user ? user.profilePicture : 'https://cdn3.vectorstock.com/i/thumb-large/11/72/outline-profil-user-or-avatar-icon-isolated-vector-35681172.jpg' }} style={{ width: width*0.625, height: width*0.625 , borderWidth: 10, borderColor: "#009B81", borderRadius: 50}} />
+      <Image source={{ uri: user ? user.profilePicture : 'https://cdn3.vectorstock.com/i/thumb-large/11/72/outline-profil-user-or-avatar-icon-isolated-vector-35681172.jpg' }} style={{ width: width*0.625, height: width*0.625 , borderWidth: 0, borderColor: "#009B81", borderRadius: 150}} />
 
       <View style={[styles.profile]}>
         
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   username: {
-    marginTop: 10,
+    marginTop: 15,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 24,
