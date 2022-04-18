@@ -5,6 +5,8 @@ import { AuthenticatedUserContext } from '../../navigation/AuthenticatedUserProv
 import Header from '../../components/header';
 import moment from 'moment';
 import * as fbOperations from '../../firebase/operations';
+import openMap from 'react-native-open-maps';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const DetailEventScreen = ({navigation,route}) => {
     const [id, idSet] = useState(null);
@@ -12,7 +14,7 @@ const DetailEventScreen = ({navigation,route}) => {
     const [date, dateSet] = useState(moment().format('DD-MMMM-YYYY'));
     const [time, timeSet] = useState(moment().format('hh:mm a'));
     const [description, descriptionSet] = useState('');
-    const [place, placeSet]= useState(null);
+    const [place, placeSet]= useState({});
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
@@ -55,8 +57,14 @@ const DetailEventScreen = ({navigation,route}) => {
           <Text style={styles.value}>{place.name}</Text>
         </View>
         <View  style={styles.row}>
+
           <Text style={styles.label}>Address:</Text>
           <Text style={styles.value}>{place.location}</Text>
+        </View>
+        <View  style={[styles.row, {justifyContent:'flex-end'}]}>
+          <TouchableOpacity disabled={place===null || place==={}} onPress={()=>{openMap({ end:place.location , latitude: parseFloat(place.longitude), longitude: parseFloat(place.latitude) });}} style={{width:"10%"}}>
+              <FontAwesome5 name="directions" size={30} color={place===null || place==="" ? "gray" :"#009B81"} />
+            </TouchableOpacity>
         </View>
         <View  style={styles.row}>
           <Text style={styles.label}>Phone:</Text>

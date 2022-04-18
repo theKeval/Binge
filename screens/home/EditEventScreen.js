@@ -100,7 +100,6 @@ const EditEventScreen = ({navigation,route}) => {
   }
 
   const renderPlaceList = () => {
-    console.log(place)
     return placesList.map((place,i) => {
       return <Picker.Item key={place} label={ place.name} value={place} style={[{}]} />
     })
@@ -148,7 +147,6 @@ const EditEventScreen = ({navigation,route}) => {
                 onChange={(event, selectedDate) => {
                   showDatePickerset(false);
                   if(event.type !== 'dismissed') {
-                    console.log(selectedDate)
                     dateSet(moment(selectedDate).format('DD-MMM-YYYY'));
                     currentDateSet(selectedDate);
                   };
@@ -173,7 +171,6 @@ const EditEventScreen = ({navigation,route}) => {
                 onChange={(event, selectedDate) => {
                   showTimePickerset(false);
                   if(event.type !== 'dismissed') {
-                    console.log(selectedDate)
                     timeSet(moment(selectedDate).format('hh:mm a'));
                     currentDateSet(selectedDate);
                   }
@@ -206,7 +203,7 @@ const EditEventScreen = ({navigation,route}) => {
                   {renderPlaceList()}
               </Picker>
           </View>
-          <TouchableOpacity disabled={place===null || place===""} onPress={()=>{openMap({ latitude: parseFloat(place.latitude), longitude: parseFloat(place.longitude) });}} style={{width:"10%"}}>
+          <TouchableOpacity disabled={place===null || place===""} onPress={()=>{openMap({ end:place.location , latitude: parseFloat(place.longitude), longitude: parseFloat(place.latitude) });}} style={{width:"10%"}}>
             <FontAwesome5 name="directions" size={30} color={place===null || place==="" ? "gray" :"#009B81"} />
           </TouchableOpacity>
         </View>
