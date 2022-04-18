@@ -48,7 +48,7 @@ const EventsScreen = ({navigation}) => {
   }
   return (
     <SafeAreaView style={[tw('mt-10'),styles.container]}>
-      <View style={[tw('p-1 flex flex-row justify-between items-center')]}>
+      <View style={[tw('p-1 flex flex-row justify-between items-center'),{flexDirection:"row"}]}>
         <Text style={tw('text-2xl font-bold pl-2')}>Events</Text>
         <TouchableOpacity style={[tw('mr-4 p-3')]} onPress={()=>{navigation.navigate('EditEventScreen')}}>
           <FontAwesome name="calendar-plus-o" size={24} color="black" />
@@ -107,8 +107,6 @@ export default EventsScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: "#FFFAEE",
   },
    button: {

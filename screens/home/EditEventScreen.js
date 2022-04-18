@@ -206,7 +206,7 @@ const EditEventScreen = ({navigation,route}) => {
                   {renderPlaceList()}
               </Picker>
           </View>
-          <TouchableOpacity disabled={place===null || place===""} onPress={()=>{openMap({ latitude: 37.865101, longitude: -119.538330 });}} style={{width:"10%"}}>
+          <TouchableOpacity disabled={place===null || place===""} onPress={()=>{openMap({ latitude: parseFloat(place.latitude), longitude: parseFloat(place.longitude) });}} style={{width:"10%"}}>
             <FontAwesome5 name="directions" size={30} color={place===null || place==="" ? "gray" :"#009B81"} />
           </TouchableOpacity>
         </View>
@@ -225,12 +225,14 @@ export default EditEventScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFAEE'
+    backgroundColor: '#FFFAEE',
+    alignItems:"flex-start"
   },
   row: {
     justifyContent: 'center',
     marginTop: 10,
-    paddingHorizontal: "5%"
+    paddingHorizontal: "5%",
+    width:"100%"
   },
   row2columns: {
     justifyContent: 'space-between',

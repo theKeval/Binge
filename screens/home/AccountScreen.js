@@ -26,21 +26,22 @@ const AccountScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
-      <Image source={user.profilePicture} widthImg={width*0.625} heightImg={width*0.625}></Image>
+      <Image source={{ uri: user.profilePicture  }} style={{ width: width*0.625, height: width*0.625 , borderWidth: 10, borderColor: "#009B81", borderRadius: 50}} />
+
+      <View style={[styles.profile]}>
+        
         <Text style={styles.username}>{user.firstName +" "+user.lastName}</Text>
       </View>
 
       <View style={tw("flex flex-row justify-between mb-5")}>
 
-      <TouchableOpacity onPress={()=> navigation.replace("AboutMe")} style={tw(
+        <TouchableOpacity onPress={()=> navigation.replace("AboutMe")} style={tw(
               "items-center justify-center rounded-full h-16 w-16 bg-white"
             )}>
           <Feather name="settings" size={44} color='#009B81' />
         </TouchableOpacity>
       </View>
 
-      <Text>Logged as: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut}style={styles.button}><Text style={styles.buttonText}>Sign out</Text></TouchableOpacity>
     </View>
   )
