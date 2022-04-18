@@ -67,15 +67,15 @@ const EditEventScreen = ({navigation,route}) => {
   }
   const saveEvent = () => {
     if(!title || title === "" ){
-      alert("");
+      alert("Please set a title for the event");
     } else if (!date || date === "" ) {
-      alert("");
+      alert("Please set a date for the event");
     } else if (!time || time === "" ) {
-      alert("");
+      alert("Please set a time for the event");
     } else if (!description || description === "" ) {
-      alert("");
+      alert("Please set a description for the event");
     } else if (!place || place === "" ) {
-      alert("");
+      alert("Please select a place for the event");
     } else {
       const eventObj = {
         id: id,
