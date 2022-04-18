@@ -11,16 +11,17 @@ const ChatRow = ({ matchDetails }) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [matchedUserInfo, setMatchedUserInfo] = useState(null);
 
-  useEffect(() => {
-    setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.id))
-  }, [matchDetails, user]);
+  useEffect(
+    () => setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.id)),
+    [matchDetails, user]
+  );
 
-  console.log("matchDetails: " + JSON.stringify(matchDetails));
-  console.log("matchedUserInfo: " + JSON.stringify(matchedUserInfo));
+  // console.log("matchDetails: " + JSON.stringify(matchDetails));
+  // console.log("matchedUserInfo: " + JSON.stringify(matchedUserInfo));
 
   return (
     <TouchableOpacity
-        onPress={() => navigation.navigate('MessageScreen')}
+      onPress={() => navigation.navigate("MessageScreen", { matchDetails })}
       style={[
         tw("flex-row items-center py-3 px-5 bg-white mx-3 my-1 rounded-lg"),
         styles.cardShadow,
@@ -32,7 +33,9 @@ const ChatRow = ({ matchDetails }) => {
       />
 
       <View>
-        <Text style={tw("text-lg font-semibold")}>{matchedUserInfo ? matchedUserInfo.firstName : ""}</Text>
+        <Text style={tw("text-lg font-semibold")}>
+          {matchedUserInfo ? matchedUserInfo.firstName : ""}
+        </Text>
 
         <Text>Let's go Food hunting!</Text>
       </View>
