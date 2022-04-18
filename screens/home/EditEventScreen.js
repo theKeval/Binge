@@ -22,7 +22,7 @@ const EditEventScreen = ({navigation,route}) => {
   const [date, dateSet] = useState(moment().format('DD-MMM-YYYY'));
   const [time, timeSet] = useState(moment().format('hh:mm a'));
   const [description, descriptionSet] = useState('');
-  const [place, placeSet]= useState(null);
+  const [place, placeSet]= useState({});
   const [placeIndex, placeIndexSet]= useState(null);
   const [placesList, placesListSet]= useState([]);
   const [attendees, attendeesSet]= useState([]);
