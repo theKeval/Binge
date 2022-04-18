@@ -43,14 +43,6 @@ const HomeScreen = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const navigation = useNavigation();
 
-  const onSwipeLeft = (user) => {
-    console.warn("swipe left", user.name);
-  };
-
-  const onSwipeRight = (user) => {
-    console.warn("swipe right: ", user.name);
-  };
-
   useEffect(() => {
     let unsub;
 
@@ -240,7 +232,7 @@ const HomeScreen = () => {
 
       <View style={tw("flex flex-row justify-evenly mb-5")}>
         <TouchableOpacity
-          onPress={() => swipeRef.current.swipedLeft()}
+          onPress={() => swipeRef.current.swipeLeft()}
           style={tw(
             "items-center justify-center rounded-full h-16 w-16 bg-red-200"
           )}
@@ -249,7 +241,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => swipeRef.current.swipedRight()}
+          onPress={() => swipeRef.current.swipeRight()}
           style={tw(
             "items-center justify-center rounded-full h-16 w-16 bg-green-200"
           )}
