@@ -64,8 +64,8 @@ const LoginScreen = ({navigation}) => {
 
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const {height} = useWindowDimensions('');
-  const [email, setEmail] = useState('keval@keval.io')
-  const [password, setPassword] = useState('abcd1234')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
 
 
