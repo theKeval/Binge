@@ -25,17 +25,23 @@ import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
+  serverTimestamp,
   setDoc,
   where,
 } from "firebase/firestore";
+import { GetUserInfo } from "../../firebase/operations";
+import generateId from '../../lib/generateId'
+
 
 const HomeScreen = () => {
   const [profiles, setProfiles] = useState([]);
   const swipeRef = useRef(null);
   const { user, setUser } = useContext(AuthenticatedUserContext);
+  const navigation = useNavigation();
 
   const onSwipeLeft = (user) => {
     console.warn("swipe left", user.name);
@@ -49,16 +55,18 @@ const HomeScreen = () => {
     let unsub;
 
     const fetchUsers = async () => {
-      const passes = await getDocs(collection(db, "users", user.email, "passes")).then(
-        (snapshot) => snapshot.docs.map((doc) => doc.data().email)
-      );
+      const passes = await getDocs(
+        collection(db, "users", user.email, "passes")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.data().email));
 
-      const likes = await getDocs(collection(db, "users", user.email, "likes")).then(
-        (snapshot) => snapshot.docs.map((doc) => doc.data().email)
-      );
+      const likes = await getDocs(
+        collection(db, "users", user.email, "likes")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.data().email));
 
-      const passedUserEmails = (await passes).length > 0 ? await passes : ["passes"];
-      const likedUserEmails = (await likes).length > 0 ? await likes : ["likes"];
+      const passedUserEmails =
+        (await passes).length > 0 ? await passes : ["passes"];
+      const likedUserEmails =
+        (await likes).length > 0 ? await likes : ["likes"];
       console.log(passedUserEmails);
       console.log(likedUserEmails);
 
@@ -96,16 +104,52 @@ const HomeScreen = () => {
     const userSwiped = profiles[cardIndex];
     console.log(`You swiped PASS on ${userSwiped.firstName}`);
 
-    setDoc(doc(db, "users", user.email, "passes", userSwiped.email), userSwiped);
+    setDoc(
+      doc(db, "users", user.email, "passes", userSwiped.email),
+      userSwiped
+    );
   };
 
   const swipeRight = async (cardIndex) => {
-    if(!profiles[cardIndex]) return;
+    if (!profiles[cardIndex]) return;
 
     const userSwiped = profiles[cardIndex];
-    console.log(`You swiped LIKE on ${userSwiped.firstName}`);
 
-    setDoc(doc(db, 'users', user.email, 'likes', userSwiped.email), userSwiped);
+    const loggedInProfile = await GetUserInfo(user.email);
+    getDoc(doc(db, "users", userSwiped.email, "likes", user.email)).then(
+      (documentSnapshot) => {
+        if (documentSnapshot.exists()) {
+          console.log(`You matched with ${userSwiped.firstName}`);
+          setDoc(
+            doc(db, "users", user.email, "likes", userSwiped.email),
+            userSwiped
+          );
+
+          // Create a Match
+          console.log(loggedInProfile.id + ", " + userSwiped.id);
+          setDoc(doc(db, 'matches', generateId(loggedInProfile.id, userSwiped.id)), {
+            users: {
+              [user.id]: loggedInProfile,
+              [userSwiped.id]: userSwiped,
+            },
+            usersMatched: [user.id, userSwiped.id],
+            timestamp: serverTimestamp(),
+          })
+
+          navigation.navigate('Match', {
+            loggedInProfile,
+            userSwiped,
+          });
+
+        } else {
+          console.log(`You swiped LIKE on ${userSwiped.firstName}`);
+          setDoc(
+            doc(db, "users", user.email, "likes", userSwiped.email),
+            userSwiped
+          );
+        }
+      }
+    );
   };
 
   // console.log("user: " + user.email);

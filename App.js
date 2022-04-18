@@ -20,6 +20,7 @@ import OTPScreen from './screens/login/OTPScreen';
 import EventsScreen from './screens/home/EventsScreen';
 import MessageScreen from './screens/home/MessageScreen';
 import EditEventScreen from './screens/home/EditEventScreen';
+import MatchScreen from './screens/home/MatchScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -100,7 +101,12 @@ export default function App() {
           <Stack.Screen name="Photos" component={PhotosScreen} /> 
           <Stack.Screen name="EditEventScreen" component={EditEventScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} /> 
-          <Tab.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} /> 
+          <Stack.Screen name="MessageScreen" component={MessageScreen}  options={{ headerShown: false, title : 'Message'}} />
+
+          <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
+            <Stack.Screen name='Match' component={MatchScreen} options={{headerShown: false}} />
+          </Stack.Group>
+          
         </Stack.Navigator>
       </NavigationContainer>
     </AuthenticatedUserProvider>
