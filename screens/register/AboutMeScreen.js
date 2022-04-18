@@ -157,8 +157,10 @@ const AboutMeScreen = ({ navigation }) => {
             <TextInput
                 placeholder='About me'
                 value={aboutMe}
+                multiline={true}
+                numberOfLines={4}
                 onChangeText={text => aboutMeSet(text)}
-                style={[styles.textField]}
+                style={[styles.textField,{textAlignVertical:'top'}]}
             />
         </View>
 
