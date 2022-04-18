@@ -5,15 +5,29 @@ import users from "../assets/data/users";
 import tw from "tailwind-rn";
 import { AuthenticatedUserContext } from "../navigation/AuthenticatedUserProvider";
 import getMatchedUserInfo from "../lib/getMatchedUserInfo";
+import {db} from "../firebase/config";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 const ChatRow = ({ matchDetails }) => {
   const navigation = useNavigation();
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [matchedUserInfo, setMatchedUserInfo] = useState(null);
+  const [lastMessage, setLastMessage] = useState("");
 
   useEffect(
-    () => setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.id)),
+    () => user ? setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.id)) : '',
     [matchDetails, user]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "matches", matchDetails.id, "messages"),
+          orderBy("timestamp", "desc")
+        ), snapshot => setLastMessage(snapshot.docs[0]?.data()?.message)
+      ),
+    [matchDetails, db]
   );
 
   // console.log("matchDetails: " + JSON.stringify(matchDetails));
@@ -29,7 +43,7 @@ const ChatRow = ({ matchDetails }) => {
     >
       <Image
         style={tw("rounded-full h-16 w-16 mr-4")}
-        source={{ uri: matchedUserInfo ? matchedUserInfo.profilePicture : "" }}
+        source={{ uri: matchedUserInfo ? matchedUserInfo.profilePicture : "https://cdn3.vectorstock.com/i/thumb-large/11/72/outline-profil-user-or-avatar-icon-isolated-vector-35681172.jpg" }}
       />
 
       <View>
@@ -37,7 +51,7 @@ const ChatRow = ({ matchDetails }) => {
           {matchedUserInfo ? matchedUserInfo.firstName : ""}
         </Text>
 
-        <Text>Let's go Food hunting!</Text>
+        <Text>{ lastMessage || `Let's go Food hunting!`}</Text>
       </View>
     </TouchableOpacity>
   );

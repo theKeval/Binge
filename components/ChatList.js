@@ -19,11 +19,11 @@ const ChatList = ({ navigation }) => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
 
   useEffect(
-    () =>
+    () => user ?
       onSnapshot(
         query(
           collection(db, "matches"),
-          where("usersMatched", "array-contains", user.id)
+          where("usersMatched", "array-contains", user?.id)
         ),
         (snapshot) =>
           setMatches(
@@ -32,7 +32,7 @@ const ChatList = ({ navigation }) => {
               ...doc.data(),
             }))
           )
-      ),
+      ) : '',
     [user]
   );
 
