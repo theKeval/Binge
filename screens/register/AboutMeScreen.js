@@ -96,7 +96,7 @@ const AboutMeScreen = ({navigation}) => {
                 />
             )}
                 <TextInput
-                        onPressIn={async ()=>{await setShow(true)}}
+                    onPressIn={async ()=>{await setShow(true)}}
                     placeholder='DOB'
                     value={dob}
                     style={[styles.textField]}

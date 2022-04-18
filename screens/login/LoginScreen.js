@@ -43,6 +43,24 @@ const LoginScreen = ({navigation}) => {
     };
   }, []);
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+
+        try {
+          if(user && user.finishedProfile){
+            navigation.replace("Home")
+      
+          }else if(user && !user.finishedProfile){
+            navigation.replace("AboutMe")
+          }
+        } catch (error) {
+            console.log(error)    
+        }
+        
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const {height} = useWindowDimensions('');

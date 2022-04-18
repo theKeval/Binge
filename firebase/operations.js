@@ -138,3 +138,78 @@ export const updateUserInfo = (id, user) => {
     return await getDownloadURL(fileRef);
   }
 // #endregion
+
+// #region Events related operations
+export  const getEvents = async () => {
+  // console.log("getting all users");
+  var events = [];
+
+  const querySnapshot = await getDocs(collection(db,"events"));
+  querySnapshot.forEach((doc) => {
+    const event = doc.data();
+    if(moment(event.date).diff(moment(event.date),'days') >= 0){
+        events.push(event);
+    }
+
+  });
+  
+  return events;
+}
+
+export  const getUserEvents = async (userId) => {
+    // console.log("getting all users");
+    var events = [];
+  
+    const querySnapshot = await getDocs(collection(db,"events"));
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      const event = doc.data();
+      if(event.createdBy === userId){
+        events.push(event);
+      }
+      
+    });
+    
+    return events;
+  }
+  export  const getPastEvents = async (userId) => {
+    // console.log("getting all users");
+    var events = [];
+  
+    const querySnapshot = await getDocs(collection(db,"events"));
+    querySnapshot.forEach((doc) => {
+      
+      const event = doc.data();
+      if(moment(event.date).diff(moment(event.date),'days') < 0){
+          events.push(event);
+      }
+    });
+    
+    return events;
+  }
+export  const getPlaces = async () => {
+    // console.log("getting all users");
+    var places = [];
+  
+    const querySnapshot = await getDocs(collection(db,"places"));
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.id, " => ", doc.data());
+      const place = doc.data();
+      places.push(place);
+    });
+    
+    return places;
+}
+
+export const createEvent = async (event) => {
+    const id = uuid.v4();
+    return Create('events', id, {...event, id:id});
+}
+
+export const updateEvent = (id, event) => {
+    return Update(event, false,"events", id);
+  }
+  export const deleteEvent = (id) => {
+    return Delete("events",id);
+  }
+// #endregion
