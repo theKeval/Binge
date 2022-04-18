@@ -127,12 +127,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   safeAreaView: {
-
+    backgroundColor: "#FFFAEE",
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#FFFAEE",
   },
   button: {
     backgroundColor: "#0782F9",
