@@ -99,11 +99,13 @@ const MessageScreen = () => {
           )}
         >
           <TextInput
-            style={tw("h-10 text-lg")}
+            style={[tw(" text-lg"), {flexWrap: 'wrap', maxHeight: 100, width: '80%'}]} // width: '80%'
+            multiline
             placeholder="Send Message.."
             onChangeText={setInput}
             onSubmitEditing={sendMessage}
             value={input}
+            
           />
 
           <Button title="Send" color="#FFBE27" onPress={sendMessage} />

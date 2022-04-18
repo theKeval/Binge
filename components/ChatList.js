@@ -40,7 +40,7 @@ const ChatList = ({ navigation }) => {
 
   return users.length > 0 ? (
     <FlatList
-      style={tw("h-full")}
+      style={[tw("h-full"), {marginBottom: 50}]}
       data={matches}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <ChatRow matchDetails={item} />}

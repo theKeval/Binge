@@ -15,6 +15,7 @@ const MatchesScreen = ({navigation}) => {
     <SafeAreaView style={[tw('mt-10'), {backgroundColor: '#FFFAEE'}]}>
       <Header title="Matches" callEnabled={false} />
       <ChatList />
+      {/* style={[tw('mb-10'), {marginBottom: 50}]} */}
     </SafeAreaView>
   )
 }

@@ -51,7 +51,7 @@ const ChatRow = ({ matchDetails }) => {
           {matchedUserInfo ? matchedUserInfo.firstName : ""}
         </Text>
 
-        <Text>{ lastMessage || `Let's go Food hunting!`}</Text>
+        <Text style={[tw(''), {maxWidth: '87%', textAlign:'left'}]}>{ lastMessage || `Let's go Food hunting!`}</Text>
       </View>
     </TouchableOpacity>
   );
